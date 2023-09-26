@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Página Secundária</title>
+    <style>
+        /* Importa a fonte personalizada do Google Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap');
+
+        body {
+            background-color: #f5f5f5;
+            text-align: center;
+            font-family: 'Roboto', sans-serif; /* Aplica a fonte personalizada */
+            font-weight: bold;
+
+        }
+
+        #container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 50px;
+        }
+
+        h1 {
+            font-weight: bold;
+        }
+
+        .interruptor {
+            display: inline-block;
+            width: 200px;
+            height: 100px;
+            text-align: center;
+            line-height: 100px;
+            margin: 10px;
+            border-radius: 10px;
+            font-weight: bold;
+            border: 2px solid grey;
+        }
+
+        .ligado {
+            background-color: green;
+            color: white;
+        }
+
+        .desligado {
+            background-color: white;
+            color: black;
+        }
+    </style>
+    <script>
+        function retornarParaPaginaPrincipal() {
+            window.location.href = "/";
+        }
+    </script>
+</head>
+<body>
+<div id="container" onclick="retornarParaPaginaPrincipal()">
+    <h1>Chamados</h1>
+    <div id="interruptores">
+        <div th:each="interruptor : ${interruptores}"
+             th:class="${interruptor.estado} ? 'interruptor ligado' : 'interruptor desligado'">
+            <p th:text="${interruptor.interruptor}"></p>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
+
+
+<!--<script>-->
+<!--        // Supondo que você tenha os dados das lâmpadas e emergência em JavaScript-->
+<!--        var dadosInterruptores = [-->
+<!--            { nome: "int_Lampada 1", estado: true },-->
+<!--            { nome: "int_Lampada 2", estado: true },-->
+<!--            { nome: "int_Lampada 3", estado: true },-->
+<!--            { nome: "emergencia", estado: true }-->
+<!--        ];-->
+
+<!--        // Laço para criar divs individuais para cada interruptor-->
+<!--        for (var i = 0; i < dadosInterruptores.length; i++) {-->
+<!--            var interruptor = dadosInterruptores[i];-->
+<!--            var divInterruptor = document.createElement("div");-->
+<!--            divInterruptor.classList.add("interruptor");-->
+
+<!--            // Adicionar nome do interruptor-->
+<!--            var nome = document.createElement("p");-->
+<!--            nome.textContent = "Nome: " + interruptor.nome;-->
+
+<!--            // Adicionar estado do interruptor-->
+<!--            var estado = document.createElement("p");-->
+<!--            estado.textContent = "Estado: " + (interruptor.estado ? "Ligado" : "Desligado");-->
+
+<!--            // Adicionar div do interruptor à página-->
+<!--            divInterruptor.appendChild(nome);-->
+<!--            divInterruptor.appendChild(estado);-->
+<!--            document.getElementById("interruptores").appendChild(divInterruptor);-->
+<!--        }-->
+<!--    </script>-->
+</body>
+</html>
