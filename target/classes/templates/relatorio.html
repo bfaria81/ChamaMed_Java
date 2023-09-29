@@ -84,27 +84,30 @@ table tr:hover {
     background-color: #cce5ff;
 }
 
+
     </style>
 </head>
 <body>
 <h1>Relatório</h1>
 <div class="container">
-<table>
-    <thead>
-    <tr>
-        <th>Ação</th>
-        <th>Data e Hora da Chamada</th>
-    </tr>
-    </thead>
-    <tbody>
-    <!-- Loop para exibir os registros de cliques -->
-    <tr th:each="registro : ${registros}">
-        <td th:text="${registro.acao}"></td>
-        <td th:text="${#temporals.format(registro.data_hora, 'dd/MM/yyyy HH:mm:ss')}"></td>
-    </tr>
-    </tbody>
+    <table>
+        <thead>
+        <tr>
+            <th>Ação</th>
+            <th>Nome</th>
+            <th>Data e Hora da Chamada</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Loop para exibir os registros de cliques -->
+        <tr th:each="m_registro : ${registros}">
+            <td th:text="${m_registro.acao}"></td>
+            <td th:text="${m_registro.nome}"></td>
+            <td th:text="${#temporals.format(m_registro.data_hora, 'dd/MM/yyyy HH:mm:ss')}"></td>
+        </tr>
+        </tbody>
 
-</table>
+    </table>
 </div>
 </body>
 </html>

@@ -94,14 +94,16 @@ table tr:hover {
         <thead>
         <tr>
             <th>Ação</th>
+            <th>Nome</th>
             <th>Data e Hora da Chamada</th>
         </tr>
         </thead>
         <tbody>
         <!-- Loop para exibir os registros de cliques -->
-        <tr th:each="registro : ${registros}">
-            <td th:text="${registro.acao}"></td>
-            <td th:text="${#temporals.format(registro.data_hora, 'dd/MM/yyyy HH:mm:ss')}"></td>
+        <tr th:each="m_registro : ${registros}">
+            <td th:text="${m_registro.acao}"></td>
+            <td th:text="${m_registro.nome}"></td>
+            <td th:text="${#temporals.format(m_registro.data_hora, 'dd/MM/yyyy HH:mm:ss')}"></td>
         </tr>
         </tbody>
 
