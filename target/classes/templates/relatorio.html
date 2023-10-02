@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Relatório</title>
+    <style>
+        /* Estilos gerais da página */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+h1 {
+    font-weight: bold;
+    text-align: center;
+    color: #333;
+}
+
+/* Formulário de filtro */
+form {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+label {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+input[type="date"] {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+button[type="submit"] {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 5px 15px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+/* Tabela de relatório */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+table th, table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+table th {
+    background-color: #007bff;
+    color: white;
+}
+
+/* Estilização das células da tabela */
+table td {
+    font-weight: bold;
+}
+
+/* Estilo alternado para linhas */
+table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+/* Estilo quando passa o mouse sobre uma linha */
+table tr:hover {
+    background-color: #cce5ff;
+}
+
+
+    </style>
+</head>
+<body>
+<h1>Relatório</h1>
+<div class="container">
+    <table>
+        <thead>
+        <tr>
+            <th>Ação</th>
+            <th>Nome</th>
+            <th>Data e Hora da Chamada</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Loop para exibir os registros de cliques -->
+        <tr th:each="m_registro : ${registros}">
+            <td th:text="${m_registro.acao}"></td>
+            <td th:text="${m_registro.nome}"></td>
+            <td th:text="${#temporals.format(m_registro.data_hora, 'dd/MM/yyyy HH:mm:ss')}"></td>
+        </tr>
+        </tbody>
+
+    </table>
+</div>
+</body>
+</html>

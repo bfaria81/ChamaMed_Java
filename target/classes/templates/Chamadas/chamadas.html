@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Gerenciamento de Pacientes</title>
+</head>
+<body>
+<h1>Lista de Pacientes</h1>
+<table>
+  <thead>
+  <tr>
+    <th>Nome</th>
+    <th>Leito</th>
+    <th>Emergência</th>
+    <th>Ação</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="paciente : ${pacientes}">
+    <td th:text="${paciente.id}"></td>
+    <td th:text="${paciente.leito ? 'Sim' : 'Não'}"></td>
+    <td th:text="${paciente.emergencia ? 'Sim' : 'Não'}"></td>
+    <td>
+      <form th:action="@{/toggleLeito}" method="post">
+        <input type="hidden" th:name="pacienteId" th:value="${paciente.id}">
+        <button type="submit" th:text="${paciente.leito ? 'Desativar Leito' : 'Ativar Leito'}"></button>
+      </form>
+      <form th:action="@{/toggleEmergencia}" method="post">
+        <input type="hidden" th:name="pacienteId" th:value="${paciente.id}">
+        <button type="submit" th:text="${paciente.emergencia ? 'Desativar Emergência' : 'Ativar Emergência'}"></button>
+      </form>
+    </td>
+  </tr>
+  </tbody>
+</table>
+</body>
+</html>
