@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Página Secundária</title>
+    <style>
+        /* Importa a fonte personalizada do Google Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap');
+
+        body {
+            background-color: #f5f5f5;
+            text-align: center;
+            font-family: 'Roboto', sans-serif; /* Aplica a fonte personalizada */
+            font-weight: bold;
+
+        }
+
+        header {
+            background-color: #333;
+            color: white;
+            padding: 20px;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        .content {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 50px;
+        }
+
+<!--        #container {-->
+<!--            display: flex;-->
+<!--            flex-direction: column;-->
+<!--            align-items: center;-->
+<!--            margin-top: 50px;-->
+<!--        }-->
+
+<!--        h1 {-->
+<!--            font-weight: bold;-->
+<!--        }-->
+
+        .interruptor {
+            display: inline-block;
+            width: 200px;
+            height: 100px;
+            text-align: center;
+            line-height: 100px;
+            margin: 10px;
+            border-radius: 10px;
+            font-weight: bold;
+            border: 2px solid grey;
+        }
+
+        .interruptor[data-estado="true"] {
+            background-color: green;
+            color: white;
+        }
+
+        .interruptor[data-estado="false"] {
+            background-color: white;
+            color: black;
+        }
+
+        .interruptor[data-tres-letras="true"] {
+            background-color: red;
+        }
+
+        .interruptor[data-tres-letras="true"][data-estado="false"] {
+            background-color: white;
+        }
+
+
+        .indentificacao {
+            font-size: 18px;
+        }
+
+<!--        .coluna-principal .interruptor {-->
+<!--            flex: 3;-->
+<!--            width: 200px;-->
+<!--            height: 100px;-->
+<!--            text-align: center;-->
+<!--            line-height: 100px;-->
+<!--            margin: 10px;-->
+<!--            border-radius: 10px;-->
+<!--            font-weight: bold;-->
+<!--            border: 2px solid grey;-->
+<!--        }-->
+
+        .coluna-lateral {
+            flex: 1; /* Define a largura para 1/4 da página */
+            display: flex;
+            flex-direction: column-reverse; /* Reverte a ordem das divs */
+            align-items: flex-end;
+            background: linear-gradient(to bottom, #006400, #808080 90%);
+        }
+
+    </style>
+    <script>
+        function retornarParaPaginaPrincipal() {
+            window.location.href = "/simulacao";
+        }
+
+    </script>
+</head>
+<body>
+<div id="container" onclick="retornarParaPaginaPrincipal()">
+    <header>
+    <h1>Chamados</h1>
+    </header>
+
+    <div class="content">
+        <div class="coluna-principal">
+            <div id="interruptores">
+                <div th:each="interruptor : ${interruptores}"
+                     th:attr="data-estado=${interruptor.estado}, data-tres-letras=${#strings.length(interruptor.interruptor) == 3}"
+                     class="interruptor"
+                     th:classappend="${interruptor.estado} ? '' : 'desligado'">
+                    <p th:text="${interruptor.interruptor}" class="identificacao"></p>
+                </div>
+            </div>
+        </div>
+
+        <aside class="coluna-lateral">
+            <!-- Repita os chamados ligados aqui para exibi-los na lateral -->
+            <div th:each="interruptor : ${interruptores}"
+                 th:if="${interruptor.estado}"
+                 th:attr="data-estado=${interruptor.estado}, data-tres-letras=${#strings.length(interruptor.interruptor) == 3}"
+                 class="interruptor"
+                 th:classappend="${interruptor.estado} ? '' : 'desligado'">
+                <p th:text="${interruptor.interruptor}" class="identificacao"></p>
+            </div>
+        </aside>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+          crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+          integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <!--    <script src="js/cadastro.js"></script>-->
+  <script src="js/login.js" defer></script>
+  <link rel="icon" href="icone.svg">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"/>
+  <title>ChamaMed</title>
+</head>
+<body>
+<div class="container">
+  <h1 class="text-left mt-5">ChamaMed</h1>
+  <div class="row">
+    <div class="col-12 mb-3">
+      <div class="input-group has-validation">
+        <span class="input-group-text"><i class="fa-solid fa-user-check"></i></span>
+        <div class="form-floating">
+          <input type="number" class="form-control" id="matricula" placeholder="Matricula" required>
+          <label for="matricula">Matrícula</label>
+        </div>
+        <div class="invalid-feedback">
+          Por favor informe o usuário!
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 mb-3">
+      <div class="input-group has-validation">
+        <span class="input-group-text"><i class="fa-sharp fa-solid fa-key"></i></span>
+        <div class="form-floating">
+          <input type="password" class="form-control" id="senha" placeholder="Senha" required>
+          <label for="senha">Senha</label>
+        </div>
+        <div class="invalid-feedback">
+          Login e senha inválidos!
+        </div>
+      </div>
+    </div>
+  </div>
+  <button id="login" class="btn btn-sm btn-primary">Login</button>
+</div>
+<!--    <div th:if="${mensagem}" th:utext="${mensagem}" style="color: red;"></div>-->
+</body>
+</html>
