@@ -17,6 +17,7 @@ import java.util.Optional;
 @Service
 public class S_Usuario_Implements implements S_Usuario_Interface{
 
+    private boolean mostrarInativos = false;
     @Autowired
     private static R_Usuario r_usuario;
 
@@ -24,6 +25,17 @@ public class S_Usuario_Implements implements S_Usuario_Interface{
 
     @Override
     public List<M_Usuario> getAllUsuario(){return r_usuario.findAll();}
+
+    @Override
+    public List<M_Usuario> getUsuariosInativos() {
+        return r_usuario.findByAtivoFalse();
+    }
+
+
+    @Override
+    public List<M_Usuario> getUsuariosAtivos(){
+        return r_usuario.findAllByAtivoTrue();
+    }
 
     @Override
     public void saveUsuario(M_Usuario m_usuario){
@@ -53,6 +65,31 @@ public class S_Usuario_Implements implements S_Usuario_Interface{
         Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
         return this.r_usuario.findAll(pageable);
     }
+
+    @Override
+    public Page<M_Usuario> findPaginatedUsuarioAtivo(int pageNo, int pageSize, String sortField, String sortDirection){
+        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending():
+                Sort.by(sortField).descending();
+
+        Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
+        return this.r_usuario.findByAtivo(true, pageable);
+    }
+
+//    @Override
+//    public Page<M_Usuario> findPaginatedUsuario(int pageNo, int pageSize, String sortField, String sortDirection){
+//
+//        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() :
+//                Sort.by(sortField).descending();
+//
+//        Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
+//
+//        if(mostrarInativos){
+//            return this.r_usuario.findAll(pageable);
+//        } else {
+//            return this.r_usuario.findByAtivo(true, pageable);
+//        }
+//    }
+
 
 
     public static M_Usuario validaLogin(String matricula, String senha){

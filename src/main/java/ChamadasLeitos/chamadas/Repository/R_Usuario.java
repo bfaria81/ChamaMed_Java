@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -19,4 +20,10 @@ public interface R_Usuario extends JpaRepository<M_Usuario, Long> {
 
     @Query(value = "SELECT * FROM usuario WHERE matricula = :matricula and senha = :senha", nativeQuery = true)
     M_Usuario findByMatriculaESenha(@Param("matricula")Long matricula, @Param("senha")String senha);
+
+    List<M_Usuario> findAllByAtivoTrue();
+    List<M_Usuario> findByAtivoFalse();
+
+    Page<M_Usuario>findByAtivo(boolean ativo, Pageable pageable);
+
 }

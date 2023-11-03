@@ -63,4 +63,16 @@ public class M_Usuario {
     public void setAtivo(boolean ativo) {
         this.ativo = ativo;
     }
+
+    @Override
+    public String toString() {
+        return "M_Usuario{" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                ", matricula=" + matricula +
+                ", ativo=" + ativo +
+                // Outros atributos que você deseja incluir na representação de string
+                '}';
+    }
+
 }

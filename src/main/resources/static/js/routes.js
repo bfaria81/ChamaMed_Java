@@ -4,10 +4,14 @@ function controleDeRotas(url){
             gerarSwal(url);
             break;
         case "/showUsuario":
-            //Renderizar Tela
-            //Definir as ações dos componentes
+//            Renderizar Tela
+//            $.get(url, function(data){
+//            //Renderizar Tela
+//            $('#mainContainer').html(data);
+//            Definir as ações dos componentes
 //            $("#enviar").click(enviaCadastroNotebook);
             window.location.href = "/showUsuario"
+
             break;
         case "/showInterruptor":
             window.location.href = "/showInterruptor"

@@ -19,10 +19,107 @@ public class C_Usuario {
     @Autowired
     private S_Usuario_Interface s_usuario_interface;
 
-    @GetMapping("/showUsuario")
-    public String viewHomePageUsuario(Model model){
-        return findPaginatedUsuario(1,"nome","asc", model);
+    private boolean mostrarInativos = false;
+
+
+//    @GetMapping("/showUsuario")
+//    public String viewHomePageUsuario(Model model){
+//
+//
+//            return findPaginatedUsuario(1, "nome", "asc", model);
+//    }
+@GetMapping("/showUsuario")
+public String viewHomePageUsuario(Model model) {
+    List<M_Usuario> usuarios = mostrarInativos ? s_usuario_interface.getAllUsuario() : s_usuario_interface.getUsuariosAtivos();
+    model.addAttribute("listUsuario", usuarios);
+
+    // Defina o tipo da página
+    if (mostrarInativos) {
+        model.addAttribute("tipoPagina", "PageUsuario");
+    } else {
+        model.addAttribute("tipoPagina", "PageUsuarioAtivo");
     }
+
+    return findPaginatedUsuario(1, "nome", "asc", model);
+}
+
+    @GetMapping("/showUsuarioInativos")
+    public String viewHomePageUsuarioInativo(Model model){
+        return findPaginatedUsuarioAtivo(1, "nome", "asc", model);
+    }
+
+    @GetMapping("/pageUsuarioAtivo/{pageNo}")
+    public String findPaginatedUsuarioAtivo(@PathVariable (value = "pageNo") int pageNo,
+                                       @RequestParam("sortField") String sortField,
+                                       @RequestParam("sortDir")String sortDir,
+                                       Model model){
+        int pageSize = 10;
+
+        Page<M_Usuario> pageUsuario = s_usuario_interface.findPaginatedUsuarioAtivo(pageNo, pageSize, sortField, sortDir);
+        List<M_Usuario> listUsuario = pageUsuario.getContent();
+
+        model.addAttribute("currentPage", pageNo);
+        model.addAttribute("totalPages", pageUsuario.getTotalPages());
+        model.addAttribute("totalItems", pageUsuario.getTotalElements());
+
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDir", sortDir);
+        model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
+
+        model.addAttribute("listUsuario", listUsuario);
+        return "Usuario/usuario_ativo";
+    }
+
+//    @GetMapping("/showUsuario")
+//    public String viewHomePageUsuario(Model model) {
+//        mostrarInativos = false;
+//
+//        List<M_Usuario> usuarios = mostrarInativos ? s_usuario_interface.getAllUsuario() : s_usuario_interface.getUsuariosAtivos();
+//
+//            model.addAttribute("listUsuario", usuarios);
+//
+//        for (M_Usuario usuario : usuarios) {
+//            System.out.println("ID: " + usuario.getId());
+//            System.out.println("Nome: " + usuario.getNome());
+//            System.out.println("Matrícula: " + usuario.getMatricula());
+//            System.out.println("Ativo: " + usuario.isAtivo());
+//            // Adicione outros atributos conforme necessário
+//            System.out.println("---------------------");
+//        }
+//
+//        return findPaginatedUsuario(1, "nome", "asc", model);
+//
+//    }
+
+    @GetMapping ("/toggleMostrarInativos")
+    public String toggleMostrarInativos() {
+        mostrarInativos = !mostrarInativos; // Alterna o estado
+        return "redirect:/showUsuarioInativos";
+    }
+
+    @GetMapping("/mostrarInativos")
+    public String mostrarInativos() {
+        mostrarInativos = true;
+        return "redirect:/showUsuario";
+    }
+
+    @GetMapping("/esconderInativos")
+    public String esconderInativos() {
+        mostrarInativos = false;
+        return "redirect:/showUsuarioInativos";
+    }
+
+
+
+//    @GetMapping("/showUsuario")
+//    public String viewHomePageUsuario(Model model){
+//        return findPaginatedUsuario(1,"nome","asc", model);
+//    }
+//
+//
+
+
+
 
     @GetMapping("/showNewUsuarioForm")
     public String showNewUsuarioForm(Model model){
@@ -109,7 +206,7 @@ public class C_Usuario {
                                            @RequestParam("sortField") String sortField,
                                            @RequestParam("sortDir")String sortDir,
                                            Model model){
-        int pageSize = 10;
+        int pageSize = 4;
 
         Page<M_Usuario> pageUsuario = s_usuario_interface.findPaginatedUsuario(pageNo, pageSize, sortField, sortDir);
         List<M_Usuario> listUsuario = pageUsuario.getContent();
@@ -125,4 +222,33 @@ public class C_Usuario {
         model.addAttribute("listUsuario", listUsuario);
         return "Usuario/usuario";
     }
+
+    @GetMapping("/inativarUsuario/{id}")
+    public String inativarUsuario(@PathVariable(value = "id") long id) {
+        M_Usuario usuario = s_usuario_interface.getUsuarioById(id);
+
+        if (usuario != null) {
+            // Inative o usuário atualizando o status para false
+            usuario.setAtivo(false);
+            s_usuario_interface.saveUsuario(usuario);
+        }
+
+        return "redirect:/showUsuario";
+    }
+
+    @GetMapping("/ativarUsuario/{id}")
+    public String ativarUsuario(@PathVariable(value = "id") long id) {
+        M_Usuario usuario = s_usuario_interface.getUsuarioById(id);
+
+        if (usuario != null) {
+            // Ative o usuário atualizando o status para true
+            usuario.setAtivo(true);
+            s_usuario_interface.saveUsuario(usuario);
+        }
+
+        return "redirect:/showUsuario";
+    }
+
+
+
 }

@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -62,6 +63,7 @@ public class C_Interruptor {
     public String exibirRelatorio(Model model) {
         // Aqui você deve buscar todos os registros do serviço
         List<M_Registro> registros = s_registro.listarTodosRegistros();
+        Collections.reverse(registros);
         model.addAttribute("registros", registros);
         return "/relatorio"; // Nome do arquivo HTML da página de relatório
     }
