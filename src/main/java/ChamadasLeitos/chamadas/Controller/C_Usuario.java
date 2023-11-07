@@ -43,7 +43,7 @@ public String viewHomePageUsuario(Model model) {
     return findPaginatedUsuario(1, "nome", "asc", model);
 }
 
-    @GetMapping("/showUsuarioInativos")
+    @GetMapping("/showUsuarioAtivo")
     public String viewHomePageUsuarioInativo(Model model){
         return findPaginatedUsuarioAtivo(1, "nome", "asc", model);
     }
@@ -91,11 +91,11 @@ public String viewHomePageUsuario(Model model) {
 //
 //    }
 
-    @GetMapping ("/toggleMostrarInativos")
-    public String toggleMostrarInativos() {
-        mostrarInativos = !mostrarInativos; // Alterna o estado
-        return "redirect:/showUsuarioInativos";
-    }
+//    @GetMapping ("/toggleMostrarInativos")
+//    public String toggleMostrarInativos() {
+//        mostrarInativos = !mostrarInativos; // Alterna o estado
+//        return "redirect:/showUsuarioAtivo";
+//    }
 
     @GetMapping("/mostrarInativos")
     public String mostrarInativos() {
@@ -103,10 +103,10 @@ public String viewHomePageUsuario(Model model) {
         return "redirect:/showUsuario";
     }
 
-    @GetMapping("/esconderInativos")
-    public String esconderInativos() {
+    @GetMapping("/mostrarAtivos")
+    public String mostrarAtivos() {
         mostrarInativos = false;
-        return "redirect:/showUsuarioInativos";
+        return "redirect:/showUsuarioAtivo";
     }
 
 
@@ -151,7 +151,7 @@ public String viewHomePageUsuario(Model model) {
         M_Resposta m_resposta = S_Usuario_Implements.cadastrarUsuario(nome, matricula, cargo);
         if (m_resposta.getStatus()){
             redirectAttributes.addFlashAttribute("mensagem", m_resposta.getMensagem());
-            return "redirect:/showUsuario";
+            return "redirect:/showUsuarioAtivo";
         } else {
             redirectAttributes.addFlashAttribute("mensagem", m_resposta.getMensagem());
             redirectAttributes.addFlashAttribute("nome", nome);
@@ -170,7 +170,7 @@ public String viewHomePageUsuario(Model model) {
             return "Update_Usuario/update_usuario";
 
         } else {
-            return "redirect:/showUsuario";
+            return "redirect:/showUsuarioAtivo";
         }
     }
 
@@ -188,7 +188,7 @@ public String viewHomePageUsuario(Model model) {
 
             s_usuario_interface.saveUsuario(usuarioExistente);
 
-            return "redirect:/showUsuario";
+            return "redirect:/showUsuarioAtivo";
 
         } else {
             return "ID não encontrado";
@@ -233,7 +233,7 @@ public String viewHomePageUsuario(Model model) {
             s_usuario_interface.saveUsuario(usuario);
         }
 
-        return "redirect:/showUsuario";
+        return "redirect:/showUsuarioAtivo";
     }
 
     @GetMapping("/ativarUsuario/{id}")
@@ -246,7 +246,7 @@ public String viewHomePageUsuario(Model model) {
             s_usuario_interface.saveUsuario(usuario);
         }
 
-        return "redirect:/showUsuario";
+        return "redirect:/showUsuarioAtivo";
     }
 
 

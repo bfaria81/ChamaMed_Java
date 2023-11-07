@@ -86,7 +86,7 @@ function validaEnvio(){
             success: function(data){
                 $("#errorMessage").text("");
                 if(data.sucesso){
-                    window.location.href="/showUsuario";
+                    window.location.href="/showUsuarioAtivo";
                 }else{
                     showToast(data);
                 }

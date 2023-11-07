@@ -3,14 +3,14 @@ function controleDeRotas(url){
         case "/logout":
             gerarSwal(url);
             break;
-        case "/showUsuario":
+        case "/showUsuarioAtivo":
 //            Renderizar Tela
 //            $.get(url, function(data){
 //            //Renderizar Tela
 //            $('#mainContainer').html(data);
 //            Definir as ações dos componentes
 //            $("#enviar").click(enviaCadastroNotebook);
-            window.location.href = "/showUsuario"
+            window.location.href = "/showUsuarioAtivo"
 
             break;
         case "/showInterruptor":
