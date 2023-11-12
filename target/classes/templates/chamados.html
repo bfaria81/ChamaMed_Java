@@ -100,22 +100,70 @@
     </style>
     <script>
         function retornarParaPaginaPrincipal() {
-            window.location.href = "/simulacao";
+            window.location.href = "/home";
         }
+<!-- caso mude o para /simucao vai para os botoes virtuais -->
+
+         // Função para atualizar a div com os dados do servidor
+        function atualizarDiv() {
+            // Realize uma solicitação AJAX para buscar os dados do servidor
+            let xhr = new XMLHttpRequest();
+            xhr.open("GET", "/chamados", true);
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    // Atualize o conteúdo da div com os dados obtidos do servidor
+                    let divContent = document.querySelector(".container");
+                    divContent.innerHTML = xhr.responseText;
+                }
+            };
+
+            xhr.send();
+        }
+
+        // Chame a função para atualizar a div a cada 1 segundo
+        setInterval(atualizarDiv, 1000);
+
+        // Chame a função para atualizar a div imediatamente quando a página carregar
+        atualizarDiv();
+
+
+<!--        function atualizarHora() {-->
+<!--        let horaElement = document.getElementById("hora");-->
+<!--        let dataAtual = new Date();-->
+<!--        let hora = dataAtual.getHours();-->
+<!--        let minutos = dataAtual.getMinutes();-->
+<!--        let segundos = dataAtual.getSeconds();-->
+
+<!--        // Formate a hora, minutos e segundos para exibir como "HH:MM:SS"-->
+<!--        let horaFormatada = (hora < 10 ? "0" : "") + hora;-->
+<!--        let minutosFormatados = (minutos < 10 ? "0" : "") + minutos;-->
+<!--        let segundosFormatados = (segundos < 10 ? "0" : "") + segundos;-->
+
+<!--        horaElement.textContent = horaFormatada + ":" + minutosFormatados + ":" + segundosFormatados;-->
+<!--    }-->
+
+<!--    // Chame a função para atualizar a hora a cada 1 segundo-->
+<!--    setInterval(atualizarHora, 1000);-->
+
+<!--    // Chame a função para atualizar a hora imediatamente quando a página carregar-->
+<!--    atualizarHora();-->
+
+
 
     </script>
 </head>
 <body>
-<div id="container" onclick="retornarParaPaginaPrincipal()">
+<div class="container" id="container" onclick="retornarParaPaginaPrincipal()">
     <header>
     <h1>Chamados</h1>
     </header>
 
     <div class="content">
-        <div class="coluna-principal">
+        <div class="coluna-principal" >
             <div id="interruptores">
                 <div th:each="interruptor : ${interruptores}"
-                     th:attr="data-estado=${interruptor.estado}, data-tres-letras=${#strings.length(interruptor.interruptor) == 3}"
+                     th:attr="data-estado=${interruptor.estado}, data-tres-letras=${#strings.length(interruptor.interruptor) == 14}"
                      class="interruptor"
                      th:classappend="${interruptor.estado} ? '' : 'desligado'">
                     <p th:text="${interruptor.interruptor}" class="identificacao"></p>
@@ -127,13 +175,16 @@
             <!-- Repita os chamados ligados aqui para exibi-los na lateral -->
             <div th:each="interruptor : ${interruptores}"
                  th:if="${interruptor.estado}"
-                 th:attr="data-estado=${interruptor.estado}, data-tres-letras=${#strings.length(interruptor.interruptor) == 3}"
+                 th:attr="data-estado=${interruptor.estado}, data-tres-letras=${#strings.length(interruptor.interruptor) == 14}"
                  class="interruptor"
                  th:classappend="${interruptor.estado} ? '' : 'desligado'">
                 <p th:text="${interruptor.interruptor}" class="identificacao"></p>
             </div>
         </aside>
     </div>
+<!--    <div id="hora-atual">-->
+<!--        Hora atual: <span id="hora"></span>-->
+<!--    </div>-->
 </div>
 </body>
 </html>

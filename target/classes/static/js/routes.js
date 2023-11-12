@@ -18,12 +18,37 @@ function controleDeRotas(url){
             break;
 
         case "/chamados":
-                    window.location.href = "/chamados"
+                    function carregarPaginaChamados() {
+                        // Redirecione o navegador para a página "/chamados"
+                        window.location.href = "/chamados";
+                    }
+
+                    // Chame a função para redirecionar o navegador uma vez.
+                    carregarPaginaChamados();
+
+                    // Configurar um intervalo para atualizar a div "content" a cada 1 segundo.
+                    setInterval(function() {
+                        $.ajax({
+                            url: '/chamados', // Substitua pelo URL real da sua div
+                            type: 'GET',
+                            success: function (data) {
+                                // Atualize o conteúdo da div com a lista de chamados
+                                $('#content').html(data);
+                            }
+                        });
+                    }, 1000);
                     break;
 
+
         case "/relatorio":
-                    window.location.href = "/relatorio"
-                    break;
+                            $.get(url, function(data){
+                                $('#mainContainer').html(data);
+
+                                    $(document).ready( function () {
+                                    $('#relatorioTable').DataTable();
+                                });
+                            });
+                            break;
 
     }
 }

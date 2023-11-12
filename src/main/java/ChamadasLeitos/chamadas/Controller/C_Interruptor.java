@@ -36,7 +36,7 @@ public class C_Interruptor {
     public String listarInterruptores(Model model) {
         List<M_Interruptor> interruptores = S_Interruptor.listarInterruptores();
         model.addAttribute("interruptores", interruptores);
-        model.addAttribute("modoSimulacao", true); // Defina como 'false' quando a comunicação com o Arduino estiver estabelecida.
+        model.addAttribute("modoSimulacao", false); // Defina como 'false' quando a comunicação com o Arduino estiver estabelecida.
         return "simulacao";
     }
 
