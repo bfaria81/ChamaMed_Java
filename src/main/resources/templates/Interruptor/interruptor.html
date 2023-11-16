@@ -10,6 +10,17 @@
           integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
           crossorigin="anonymous">
 
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+          integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+
+    <!--Data Table-->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.css" />
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
+    <script src="js/datatables.js"></script>
+
     <!-- Estilos personalizados -->
     <style>
       body {
@@ -67,6 +78,43 @@
       }
 
     </style>
+    <script>
+     $(document).ready(function () {
+        $('#relatorioTable').DataTable();
+    });
+
+    function inativarInterruptor(userId) {
+    $.ajax({
+        type: "GET",
+        url: "/inativarInterruptor/" + userId,
+        success: function (data) {
+
+            $("#interruptor" + userId).remove();
+        },
+        error: function (error) {
+            console.log("Erro ao inativar o interruptor: " + error);
+        }
+    });
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+const checkbox = document.getElementById("botaoMostrarInativos");
+
+    checkbox.addEventListener("change", function () {
+        if (checkbox.checked === false) {
+            // Se o checkbox está marcado, redirecione para a rota /mostrarInativos
+            window.location.href = "/mostrarInterruptoresAtivos";
+        } else {
+            // Se o checkbox não está marcado, redirecione para a rota /mostrarAtivos
+            window.location.href = "/mostrarInterruptoresInativos";
+        }
+    });
+});
+
+ $(document).ready(function () {
+        $('#tabelateste').DataTable(); // Substitua 'suaTabela' pelo ID da sua tabela
+    });
+</script>
 </head>
 <body>
 
@@ -76,65 +124,65 @@
         <a th:href="@{/showNewInterruptorForm}" class="btn btn-primary">Adicionar Interruptor</a>
         <a th:href="@{/home}" class="btn btn-info">Menu</a>
     </div>
+    <div class="form-check form-switch form-check-reverse">
+        <input class="form-check-input" type="checkbox" id="botaoMostrarInativos" checked>
+        <label class="form-check-label" for="botaoMostrarInativos">Mostrar Inativos</label>
+    </div>
 
-    <table class="table table-striped">
+
+    <table id="relatorioTable" class="table table-striped">
         <thead>
         <tr>
-            <th>
-                <a th:href="@{'/pageInterruptor/' + ${currentPage} + '?sortField=interruptor&sortDir=' + ${reverseSortDir}}">
-                    Nome Interruptor</a>
-            </th>
-            <th>
-                <a th:href="@{'/pageInterruptor/' + ${currentPage} + '?sortField=estado&sortDir=' + ${reverseSortDir}}">
-                    Estado</a>
-            </th>
-            <th>
-                <a th:href="@{'/pageInterruptor/' + ${currentPage} + '?sortField=setor&sortDir=' + ${reverseSortDir}}">
-                    Setor</a>
-            </th>
+            <th>Nome Interruptor</th>
+            <th>Estado</th>
+            <th>Setor</th>
             <th>Ações</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="interruptor : ${listInterruptor}">
-            <td th:text="${interruptor.interruptor}"></td>
-            <td th:text="${interruptor.estado}"></td>
-            <td th:text="${interruptor.setor}"></td>
-            <td>
-                <a th:href="@{/showFormForUpdateInterruptor/{id}(id=${interruptor.id})}" class="btn btn-primary btn-sm">Editar</a>
-                <a th:href="@{/deleteInterruptor/{id}(id=${interruptor.id})}" class="btn btn-danger btn-sm">Excluir</a>
+        <tr th:id="${'interruptor' + interruptor.id}" th:each="interruptor : ${interruptoresList}">
+            <td th:text="${interruptor.interruptor}" th:style="${interruptor.ativo == false} ? 'color: red' : ''"></td>
+            <td th:text="${interruptor.estado}" th:style="${interruptor.ativo == false} ? 'color: red' : ''"></td>
+            <td th:text="${interruptor.setor}" th:style="${interruptor.ativo == false} ? 'color: red' : ''"></td>
+
+            <td class="d-flex align-items-center justify-content-center">
+                <a th:href="@{/showFormForUpdateInterruptor/{id}(id=${interruptor.id})}"
+                   class="btn btn-primary btn-sm">Editar</a>
+                <a th:onclick="'inativarInterruptor('+${interruptor.id}+')'" class="btn btn-warning btn-sm mx-2">Inativar</a>
+                <a th:href="@{'/ativarInterruptor/' + ${interruptor.id}}" class="btn btn-success btn-sm mx-2">Ativar</a>
+<!--                <a th:href="@{/deleteInterruptor/{id}(id=${interruptor.id})}" class="btn btn-danger btn-sm">Excluir</a>-->
             </td>
         </tr>
         </tbody>
     </table>
-    <div th:if="${totalPages > 1}">
-        <div class="row col-sm-10">
-            <div class="col-sm-2">
-                Total Itens: [[${totalItems}]]
-            </div>
+<!--    <div th:if="${totalPages > 1}">-->
+<!--        <div class="row col-sm-10">-->
+<!--            <div class="col-sm-2">-->
+<!--                Total Itens: [[${totalItems}]]-->
+<!--            </div>-->
 
-            <div class="col-sm-1">
-          <span th:each="i: ${#numbers.sequence(1, totalPages)}">
-            <a th:if="${currentPage != i}"
-               th:href="@{'/pageInterruptor/' + ${i}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}"> [[${i}]]</a>
-            <span th:unless="${currentPage != i}">[[${i}]]</span> <!--&nbsp;-->
-          </span>
-            </div>
+<!--            <div class="col-sm-1">-->
+<!--          <span th:each="i: ${#numbers.sequence(1, totalPages)}">-->
+<!--            <a th:if="${currentPage != i}"-->
+<!--               th:href="@{'/pageInterruptor/' + ${i}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}"> [[${i}]]</a>-->
+<!--            <span th:unless="${currentPage != i}">[[${i}]]</span> &lt;!&ndash;&nbsp;&ndash;&gt;-->
+<!--          </span>-->
+<!--            </div>-->
 
-            <div class="col-sm-1">
-                <a th:if="${currentPage < totalPages}"
-                   th:href="@{'/pageInterruptor/' + ${currentPage + 1}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Next</a>
-                <span th:unless="${currentPage < totalPages}">Next</span>
-            </div>
+<!--            <div class="col-sm-1">-->
+<!--                <a th:if="${currentPage < totalPages}"-->
+<!--                   th:href="@{'/pageInterruptor/' + ${currentPage + 1}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Next</a>-->
+<!--                <span th:unless="${currentPage < totalPages}">Next</span>-->
+<!--            </div>-->
 
-            <div class="col-sm-1">
-                <a th:if="${currentPage < totalPages}"
-                   th:href="@{'/pageInterruptor/' + ${totalPages}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Last</a>
-                <span th:unless="${currentPage < totalPages}">Last</span>
-            </div>
+<!--            <div class="col-sm-1">-->
+<!--                <a th:if="${currentPage < totalPages}"-->
+<!--                   th:href="@{'/pageInterruptor/' + ${totalPages}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Last</a>-->
+<!--                <span th:unless="${currentPage < totalPages}">Last</span>-->
+<!--            </div>-->
 
-        </div>
-    </div>
+<!--        </div>-->
+<!--    </div>-->
 </div>
 </body>
 </html>

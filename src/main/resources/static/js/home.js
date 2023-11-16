@@ -26,3 +26,4 @@ function gerarSwal(urlSucesso){
         }
     });
 }
+

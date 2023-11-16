@@ -30,45 +30,38 @@ public class C_Usuario {
 //    }
 @GetMapping("/showUsuario")
 public String viewHomePageUsuario(Model model) {
-    List<M_Usuario> usuarios = mostrarInativos ? s_usuario_interface.getAllUsuario() : s_usuario_interface.getUsuariosAtivos();
-    model.addAttribute("listUsuario", usuarios);
-
-    // Defina o tipo da página
-    if (mostrarInativos) {
-        model.addAttribute("tipoPagina", "PageUsuario");
-    } else {
-        model.addAttribute("tipoPagina", "PageUsuarioAtivo");
-    }
-
-    return findPaginatedUsuario(1, "nome", "asc", model);
+    List<M_Usuario> usuariosList = s_usuario_interface.getAllUsuario();
+    model.addAttribute("usuariosList", usuariosList);
+    return "Usuario/usuario";
 }
 
     @GetMapping("/showUsuarioAtivo")
     public String viewHomePageUsuarioInativo(Model model){
-        return findPaginatedUsuarioAtivo(1, "nome", "asc", model);
+        List<M_Usuario> usuariosList = s_usuario_interface.getUsuariosAtivos();
+        model.addAttribute("usuariosList", usuariosList);
+        return"Usuario/usuario_ativo";
     }
-
-    @GetMapping("/pageUsuarioAtivo/{pageNo}")
-    public String findPaginatedUsuarioAtivo(@PathVariable (value = "pageNo") int pageNo,
-                                       @RequestParam("sortField") String sortField,
-                                       @RequestParam("sortDir")String sortDir,
-                                       Model model){
-        int pageSize = 10;
-
-        Page<M_Usuario> pageUsuario = s_usuario_interface.findPaginatedUsuarioAtivo(pageNo, pageSize, sortField, sortDir);
-        List<M_Usuario> listUsuario = pageUsuario.getContent();
-
-        model.addAttribute("currentPage", pageNo);
-        model.addAttribute("totalPages", pageUsuario.getTotalPages());
-        model.addAttribute("totalItems", pageUsuario.getTotalElements());
-
-        model.addAttribute("sortField", sortField);
-        model.addAttribute("sortDir", sortDir);
-        model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
-
-        model.addAttribute("listUsuario", listUsuario);
-        return "Usuario/usuario_ativo";
-    }
+//    @GetMapping("/pageUsuarioAtivo/{pageNo}")
+//    public String findPaginatedUsuarioAtivo(@PathVariable (value = "pageNo") int pageNo,
+//                                       @RequestParam("sortField") String sortField,
+//                                       @RequestParam("sortDir")String sortDir,
+//                                       Model model){
+//        int pageSize = 10;
+//
+//        Page<M_Usuario> pageUsuario = s_usuario_interface.findPaginatedUsuarioAtivo(pageNo, pageSize, sortField, sortDir);
+//        List<M_Usuario> listUsuario = pageUsuario.getContent();
+//
+//        model.addAttribute("currentPage", pageNo);
+//        model.addAttribute("totalPages", pageUsuario.getTotalPages());
+//        model.addAttribute("totalItems", pageUsuario.getTotalElements());
+//
+//        model.addAttribute("sortField", sortField);
+//        model.addAttribute("sortDir", sortDir);
+//        model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
+//
+//        model.addAttribute("listUsuario", listUsuario);
+//        return "Usuario/usuario_ativo";
+//    }
 
 //    @GetMapping("/showUsuario")
 //    public String viewHomePageUsuario(Model model) {
@@ -201,27 +194,27 @@ public String viewHomePageUsuario(Model model) {
         return "redirect:/showUsuario";
     }
 
-    @GetMapping("/pageUsuario/{pageNo}")
-    public String findPaginatedUsuario(@PathVariable (value = "pageNo") int pageNo,
-                                           @RequestParam("sortField") String sortField,
-                                           @RequestParam("sortDir")String sortDir,
-                                           Model model){
-        int pageSize = 4;
-
-        Page<M_Usuario> pageUsuario = s_usuario_interface.findPaginatedUsuario(pageNo, pageSize, sortField, sortDir);
-        List<M_Usuario> listUsuario = pageUsuario.getContent();
-
-        model.addAttribute("currentPage", pageNo);
-        model.addAttribute("totalPages", pageUsuario.getTotalPages());
-        model.addAttribute("totalItems", pageUsuario.getTotalElements());
-
-        model.addAttribute("sortField", sortField);
-        model.addAttribute("sortDir", sortDir);
-        model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
-
-        model.addAttribute("listUsuario", listUsuario);
-        return "Usuario/usuario";
-    }
+//    @GetMapping("/pageUsuario/{pageNo}")
+//    public String findPaginatedUsuario(@PathVariable (value = "pageNo") int pageNo,
+//                                           @RequestParam("sortField") String sortField,
+//                                           @RequestParam("sortDir")String sortDir,
+//                                           Model model){
+//        int pageSize = 4;
+//
+//        Page<M_Usuario> pageUsuario = s_usuario_interface.findPaginatedUsuario(pageNo, pageSize, sortField, sortDir);
+//        List<M_Usuario> listUsuario = pageUsuario.getContent();
+//
+//        model.addAttribute("currentPage", pageNo);
+//        model.addAttribute("totalPages", pageUsuario.getTotalPages());
+//        model.addAttribute("totalItems", pageUsuario.getTotalElements());
+//
+//        model.addAttribute("sortField", sortField);
+//        model.addAttribute("sortDir", sortDir);
+//        model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
+//
+//        model.addAttribute("listUsuario", listUsuario);
+//        return "Usuario/usuario";
+//    }
 
     @GetMapping("/inativarUsuario/{id}")
     public String inativarUsuario(@PathVariable(value = "id") long id) {
@@ -248,7 +241,6 @@ public String viewHomePageUsuario(Model model) {
 
         return "redirect:/showUsuarioAtivo";
     }
-
 
 
 }

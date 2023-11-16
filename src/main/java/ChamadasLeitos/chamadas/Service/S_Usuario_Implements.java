@@ -57,23 +57,23 @@ public class S_Usuario_Implements implements S_Usuario_Interface{
     @Override
     public void deleteUsuarioById(Long id) {this.r_usuario.deleteById((long)id);}
 
-    @Override
-    public Page<M_Usuario> findPaginatedUsuario(int pageNo, int pageSize, String sortField, String sortDirection){
-        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending():
-                Sort.by(sortField).descending();
+//    @Override
+//    public Page<M_Usuario> findPaginatedUsuario(int pageNo, int pageSize, String sortField, String sortDirection){
+//        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending():
+//                Sort.by(sortField).descending();
+//
+//        Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
+//        return this.r_usuario.findAll(pageable);
+//    }
 
-        Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
-        return this.r_usuario.findAll(pageable);
-    }
-
-    @Override
-    public Page<M_Usuario> findPaginatedUsuarioAtivo(int pageNo, int pageSize, String sortField, String sortDirection){
-        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending():
-                Sort.by(sortField).descending();
-
-        Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
-        return this.r_usuario.findByAtivo(true, pageable);
-    }
+//    @Override
+//    public Page<M_Usuario> findPaginatedUsuarioAtivo(int pageNo, int pageSize, String sortField, String sortDirection){
+//        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending():
+//                Sort.by(sortField).descending();
+//
+//        Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
+//        return this.r_usuario.findByAtivo(true, pageable);
+//    }
 
 //    @Override
 //    public Page<M_Usuario> findPaginatedUsuario(int pageNo, int pageSize, String sortField, String sortDirection){

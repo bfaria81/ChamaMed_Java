@@ -22,6 +22,16 @@ public class S_Interruptor_Implements implements S_Interruptor_Interface {
     public List<M_Interruptor> getAllInterruptor(){return r_interruptor.findAll();}
 
     @Override
+    public  List<M_Interruptor> getInterruptoresAtivos(){
+        return r_interruptor.findAllByAtivoTrue();
+    }
+
+    @Override
+    public List<M_Interruptor> getInterruptoresInativos() {
+        return r_interruptor.findByAtivoFalse();
+    }
+
+    @Override
     public void saveInterruptor(M_Interruptor m_interruptor){
         r_interruptor.save(m_interruptor);
     }

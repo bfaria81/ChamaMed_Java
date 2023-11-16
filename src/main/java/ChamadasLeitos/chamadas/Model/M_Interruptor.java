@@ -12,6 +12,7 @@ public class M_Interruptor {
     private String interruptor;
     private boolean estado;
     private String setor;
+    private boolean ativo;
 
 
 //    public M_Interruptor() {
@@ -48,5 +49,13 @@ public class M_Interruptor {
 
     public void setSetor(String setor) {
         this.setor = setor;
+    }
+
+    public boolean isAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
     }
 }

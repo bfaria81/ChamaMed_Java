@@ -20,9 +20,9 @@ public interface S_Usuario_Interface {
 
     List<M_Usuario>getUsuariosAtivos();
 
-    Page<M_Usuario> findPaginatedUsuario(int pageNo, int pageSize, String sortField, String sortDirection);
+//    Page<M_Usuario> findPaginatedUsuario(int pageNo, int pageSize, String sortField, String sortDirection);
 
-    Page<M_Usuario> findPaginatedUsuarioAtivo(int pageNo, int pageSize, String sortField, String sortDirection);
+//    Page<M_Usuario> findPaginatedUsuarioAtivo(int pageNo, int pageSize, String sortField, String sortDirection);
 
 
 }

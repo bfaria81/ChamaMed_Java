@@ -28,6 +28,7 @@ public class C_Interruptor {
 
     @Autowired
     private S_Interruptor_Interface s_interruptor_interface;
+    private boolean mostrarInterruptoresInativos = false;
 
     @Autowired
     private S_Registro s_registro;
@@ -70,8 +71,30 @@ public class C_Interruptor {
 
     @GetMapping("/showInterruptor")
     public String viewHomePageInterruptor(Model model){
-        return findPaginatedInterruptor(1,"interruptor","asc", model);
+        List<M_Interruptor> interruptoresList = s_interruptor_interface.getAllInterruptor();
+        model.addAttribute("interruptoresList", interruptoresList);
+        return "Interruptor/interruptor";
     }
+
+    @GetMapping("/showInterruptorAtivo")
+    public String viewHomePageInterruptorAtivo(Model model){
+        List<M_Interruptor> interruptoresList = s_interruptor_interface.getInterruptoresAtivos();
+        model.addAttribute("interruptoresList", interruptoresList);
+        return "Interruptor/interruptor_ativo";
+    }
+
+    @GetMapping("/mostrarInterruptoresInativos")
+    public String mostrarInterruptorInativos() {
+        mostrarInterruptoresInativos = true;
+        return "redirect:/showInterruptor";
+    }
+
+    @GetMapping("/mostrarInterruptoresAtivos")
+    public String mostrarInterruptoresAtivos() {
+        mostrarInterruptoresInativos = false;
+        return "redirect:/showInterruptorAtivo";
+    }
+
 
     @GetMapping("/showNewInterruptorForm")
     public String showNewInterruptorForm(Model model){
@@ -131,6 +154,29 @@ public class C_Interruptor {
         this.s_interruptor_interface.deleteInterruptorById((Long)id);
         return "redirect:/showInterruptor";
     }
+
+    @GetMapping("/ativarInterruptor/{id}")
+    public String ativarInterruptor(@PathVariable(value = "id") long id){
+        M_Interruptor interruptor = s_interruptor_interface.getInterruptorById(id);
+
+        if (interruptor != null){
+            interruptor.setAtivo(true);
+            s_interruptor_interface.saveInterruptor(interruptor);
+        }
+        return "redirect:/showInterruptor";
+    }
+
+    @GetMapping("/inativarInterruptor/{id}")
+    public String inativarInterruptor(@PathVariable(value = "id") long id){
+        M_Interruptor interruptor = s_interruptor_interface.getInterruptorById(id);
+
+        if (interruptor != null){
+            interruptor.setAtivo(false);
+            s_interruptor_interface.saveInterruptor(interruptor);
+        }
+        return "redirect:/showInterruptor";
+    }
+
 
     @GetMapping("/pageInterruptor/{pageNo}")
     public String findPaginatedInterruptor(@PathVariable (value = "pageNo") int pageNo,
