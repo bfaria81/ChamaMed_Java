@@ -18,13 +18,15 @@
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
 
     <!--Data Table-->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.css"/>
     <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
 
 
     <!-- Modal -->
-<!--    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>-->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <!--    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+            crossorigin="anonymous"></script>
 
     <!--Sweet Alert-->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.31/dist/sweetalert2.all.min.js"></script>
@@ -34,7 +36,7 @@
     <script src="js/usuario.js" defer></script>
     <script src="js/datatables.js"></script>
     <script src="js/routes.js"></script>
-    <script src="js/home.js" ></script>
+    <script src="js/home.js"></script>
 
 
     <!-- Estilos personalizados -->
@@ -104,7 +106,88 @@
 
 
     </style>
-    <script>
+
+</head>
+<body>
+
+<div class="container mt-4">
+    <h1 class="text-center">Lista de Usuários</h1>
+
+    <div class="modal fade" id="cadastroUsuarioModal" tabindex="-1" aria-labelledby="cadastroUsuarioModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="cadastroUsuarioModalLabel">Cadastrar Usuário</h5>
+                </div>
+                <div class="modal-body">
+                    <form action="#" th:action="@{/saveUsuario}"
+                          method="POST">
+                        <input id="nome" name="nome" type="text"
+                               placeholder="Nome Usuario" class="form-control mb-4 col-4 gNome" required>
+                        <input id="matricula" name="matricula" type="number"
+                               placeholder="Matrícula" class="form-control mb-4 col-4 gMatricula" required>
+                        <select id="cargo" name="cargo"
+                                placeholder="Cargo" class="form-select mb-4 col-4 gCargo">
+                            <option value="" selected>Selecione...</option>
+                            <option value="1">Gestor</option>
+                            <option value="2">Médico</option>
+                            <option value="3">Residente</option>
+                            <option value="4">Enfermeiro(a)-Chefe</option>
+                            <option value="5">Enfermeiro(a)</option>
+                        </select>
+
+                        <button id="enviar" type="submit" class="btn btn-info col-2">Salvar</button>
+                        <a th:href="@{/showUsuarioAtivo}" class="btn btn-secondary col-2"
+                           data-bs-dismiss="modal">Voltar</a>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="d-flex justify-content-between mb-4">
+
+        <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#cadastroUsuarioModal">Adicionar Usuário</a>
+        <a th:href="@{/home}" class="btn btn-info">Menu</a>
+    </div>
+    <div class="form-check form-switch form-check-reverse">
+        <input class="form-check-input" type="checkbox" id="botaoMostrarInativos">
+        <label class="form-check-label" for="botaoMostrarInativos">Mostrar Inativos</label>
+    </div>
+
+
+    <table id="relatorioTable" class="table table-striped">
+        <thead>
+        <tr>
+            <th>Nome do Usuário</th>
+            <th>Matricula</th>
+            <th>Cargo</th>
+            <th>Ações</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:id="${'usuario' + usuario.id}" th:each="usuario : ${usuariosList}">
+            <td th:text="${usuario.nome}" th:style="${usuario.ativo == false} ? 'color: red' : ''"></td>
+            <td th:text="${usuario.matricula}" th:style="${usuario.ativo == false} ? 'color: red' : ''"></td>
+            <td th:text="${usuario.cargo == 1 ? 'Gestor' : usuario.cargo == 2 ? 'Médico' : usuario.cargo == 3 ? 'Residente' : usuario.cargo == 4 ? 'Enfermeiro(a)-Chefe' : usuario.cargo == 5 ? 'Enfermeiro(a)' : 'Desconhecido'}"
+                th:style="${usuario.ativo == false} ? 'color: red' : ''"></td>
+
+            <td class="d-flex align-items-center justify-content-center">
+                <a th:href="@{/showFormForUpdateUsuario/{id}(id=${usuario.id})}"
+                   class="btn btn-primary btn-sm mx-2">Editar</a>
+
+                <a th:onclick="'inativarUsuario('+${usuario.id}+')'" class="btn btn-warning btn-sm mx-2">Inativar</a>
+                <a th:href="@{'/ativarUsuario/' + ${usuario.id}}" class="btn btn-success btn-sm mx-2">Ativar</a>
+
+            </td>
+
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+<script>
     function inativarUsuario(userId) {
     $.ajax({
         type: "GET",
@@ -133,178 +216,11 @@ const checkbox = document.getElementById("botaoMostrarInativos");
     });
 });
 
-<!--$(document).ready( function () {-->
-<!--    $('#myTable').DataTable();-->
-<!--} );-->
 
  $(document).ready(function () {
         $('#relatorioTable').DataTable();
-    });
+ });
+
 </script>
-</head>
-<body>
-
-<div class="container mt-4">
-    <h1 class="text-center">Lista de Usuários</h1>
-
-    <div class="modal fade" id="cadastroUsuarioModal" tabindex="-1" aria-labelledby="cadastroUsuarioModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="cadastroUsuarioModalLabel">Cadastrar Usuário</h5>
-                    <!--                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
-                </div>
-                <div class="modal-body">
-                    <form action="#" th:action="@{/saveUsuario}"
-                          method="POST">
-                        <input id="nome" name="nome" type="text"
-                               placeholder="Nome Usuario" class="form-control mb-4 col-4 gNome" required>
-                        <input id="matricula" name="matricula" type="number"
-                               placeholder="Matrícula" class="form-control mb-4 col-4 gMatricula" required>
-                        <select id="cargo" name="cargo"
-                                placeholder="Cargo" class="form-select mb-4 col-4 gCargo">
-                            <option value="" selected>Selecione...</option>
-                            <option value="1">Gestor</option>
-                            <option value="2">Médico</option>
-                            <option value="3">Residente</option>
-                            <option value="4">Enfermeiro(a)-Chefe</option>
-                            <option value="5">Enfermeiro(a)</option>
-                        </select>
-
-                        <button id="enviar" type="submit" class="btn btn-info col-2">Salvar</button>
-                        <a th:href = "@{/showUsuarioAtivo}" class="btn btn-secondary col-2" data-bs-dismiss="modal">Voltar</a>
-
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="d-flex justify-content-between mb-4">
-
-        <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#cadastroUsuarioModal">Adicionar Usuário</a>
-        <a th:href="@{/home}" class="btn btn-info">Menu</a>
-    </div>
-    <div class="form-check form-switch form-check-reverse">
-        <input class="form-check-input" type="checkbox" id="botaoMostrarInativos">
-        <label class="form-check-label" for="botaoMostrarInativos">Mostrar Inativos</label>
-    </div>
-<!--    <a th:href="@{/mostrarInativos}" class="btn btn-primary">Mostrar Inativos</a>-->
-<!--    <a th:href="@{/esconderInativos}" class="btn btn-primary">Esconder Inativos</a>-->
-
-
-
-
-
-    <table id="relatorioTable" class="table table-striped">
-        <thead>
-        <tr>
-            <!--            <th>-->
-            <!--                <a th:href="@{'/pageUsuario/' + ${currentPage} + '?sortField=nome&sortDir=' +-->
-            <!--                ${reverseSortDir}}">-->
-            <!--                    Nome do Usuário</a>-->
-            <!--            </th>-->
-            <!--            <th>-->
-            <!--                <a th:href="@{'/pageUsuario/' + ${currentPage} + '?sortField=matricula&sortDir=' +-->
-            <!--                ${reverseSortDir}}">-->
-            <!--                    Matricula</a>-->
-            <!--            </th>-->
-            <!--            <th>-->
-            <!--                <a th:href="@{'/pageUsuario/' + ${currentPage} + '?sortField=cargo&sortDir=' +-->
-            <!--                ${reverseSortDir}}">-->
-            <!--                    Cargo</a>-->
-            <!--            </th>-->
-            <th>Nome do Usuário</th>
-            <th>Matricula</th>
-            <th>Cargo</th>
-            <th>Ações</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:id="${'usuario' + usuario.id}" th:each="usuario : ${usuariosList}">
-            <td th:text="${usuario.nome}" th:style="${usuario.ativo == false} ? 'color: red' : ''"></td>
-            <td th:text="${usuario.matricula}" th:style="${usuario.ativo == false} ? 'color: red' : ''"></td>
-            <td th:text="${usuario.cargo == 1 ? 'Gestor' : usuario.cargo == 2 ? 'Médico' : usuario.cargo == 3 ? 'Residente' : usuario.cargo == 4 ? 'Enfermeiro(a)-Chefe' : usuario.cargo == 5 ? 'Enfermeiro(a)' : 'Desconhecido'}" th:style="${usuario.ativo == false} ? 'color: red' : ''"></td>
-
-            <td class="d-flex align-items-center justify-content-center">
-                <a th:href="@{/showFormForUpdateUsuario/{id}(id=${usuario.id})}"
-                   class="btn btn-primary btn-sm mx-2">Editar</a>
-                <!--                <a th:href="@{/deleteUsuario/{id}(id=${usuario.id})}" class="btn btn-danger btn-sm mx-2 ">Excluir</a>-->
-
-                <!--                <a th:href="@{'/inativarUsuario/' + ${usuario.id}}" class="btn btn-warning btn-sm mx-2">Inativar</a>-->
-                <a th:onclick="'inativarUsuario('+${usuario.id}+')'" class="btn btn-warning btn-sm mx-2">Inativar</a>
-                <a th:href="@{'/ativarUsuario/' + ${usuario.id}}" class="btn btn-success btn-sm mx-2">Ativar</a>
-
-
-                <!--                <div class="form-check form-switch form-check-reverse">-->
-                <!--                    <input class="form-check-input" type="checkbox" id="ativo" checked style="background-color: #DC143C;">-->
-                <!--                    <label class="form-check-label" for="ativo">Ativo</label>-->
-                <!--                </div>-->
-            </td>
-
-        </tr>
-        </tbody>
-    </table>
-
-<!--    <div th:if="${totalPages > 1}">-->
-<!--        <div class="row col-sm-10">-->
-<!--            <div class="col-sm-2">-->
-<!--                Total Itens: [[${totalItems}]]-->
-<!--            </div>-->
-
-<!--            <div class="col-sm-1">-->
-<!--          <span th:each="i: ${#numbers.sequence(1, totalPages)}">-->
-<!--            <a th:if="${currentPage != i}"-->
-<!--               th:href="@{'/pageUsuarioAtivo/' + ${i}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}"> [[${i}]]</a>-->
-<!--            <span th:unless="${currentPage != i}">[[${i}]]</span> &lt;!&ndash;&nbsp;&ndash;&gt;-->
-<!--          </span>-->
-<!--            </div>-->
-
-<!--            <div class="col-sm-1">-->
-<!--                <a th:if="${currentPage < totalPages}"-->
-<!--                   th:href="@{'/pageUsuarioAtivo/' + ${currentPage + 1}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Next</a>-->
-<!--                <span th:unless="${currentPage < totalPages}">Next</span>-->
-<!--            </div>-->
-
-<!--            <div class="col-sm-1">-->
-<!--                <a th:if="${currentPage < totalPages}"-->
-<!--                   th:href="@{'/pageUsuarioAtivo/' + ${totalPages}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Last</a>-->
-<!--                <span th:unless="${currentPage < totalPages}">Last</span>-->
-<!--            </div>-->
-
-<!--        </div>-->
-<!--    </div>-->
-
-<!--    <nav aria-label="..." th:if="${totalPages > 1}">-->
-<!--        <ul class="pagination">-->
-<!--            <li class="page-item ">-->
-<!--                <a class="page-link">Total Itens: [[${totalItems}]]</a>-->
-<!--            </li>-->
-
-<!--            <th:block th:each="i: ${#numbers.sequence(1, totalPages)}">-->
-<!--                <li class="page-item active" th:if="${i == currentPage}">-->
-<!--                    <a th:href="@{'/pageUsuarioAtivo/' + ${i} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}"-->
-<!--                       class="page-link">[[${i}]]</a>-->
-<!--                </li>-->
-<!--                <li class="page-item" th:unless="${i == currentPage}">-->
-<!--                    <a th:href="@{'/pageUsuarioAtivo/' + ${i} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}"-->
-<!--                       class="page-link">[[${i}]]</a>-->
-<!--                </li>-->
-<!--            </th:block>-->
-
-<!--            <li class="page-item">-->
-<!--                <a class="page-link" th:if="${currentPage < totalPages}"-->
-<!--                   th:href="@{'/pageUsuarioAtivo/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Next</a>-->
-<!--                <a class="page-link" th:unless="${currentPage < totalPages}">Next</a>-->
-<!--            </li>-->
-
-<!--            <li class="page-item">-->
-<!--                <a class="page-link" th:if="${currentPage < totalPages}"-->
-<!--                   th:href="@{'/pageUsuarioAtivo/' + ${totalPages} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Last</a>-->
-<!--                <a class="page-link" th:unless="${currentPage < totalPages}">Last</a>-->
-<!--            </li>-->
-<!--        </ul>-->
-<!--    </nav>-->
-
-</div>
 </body>
 </html>

@@ -34,6 +34,4 @@ public class C_Login {
         return "redirect:/";
     }
 
-
-
 }

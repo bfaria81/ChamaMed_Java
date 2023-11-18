@@ -34,6 +34,7 @@ public class ChamadasApplication {
 //	boolean porta4 = false;
 //	boolean porta5 = false;
 //	boolean porta6 = false;
+//	boolean porta7 = false;
 //
 //		try {
 //			boolean porta2EstadoAnterior = false;
@@ -41,6 +42,7 @@ public class ChamadasApplication {
 //			boolean porta4EstadoAnterior = false;
 //			boolean porta5EstadoAnterior = false;
 //			boolean porta6EstadoAnterior = false;
+//			boolean porta7EstadoAnterior = false;
 //
 //			while (true) {
 //				if (sp.bytesAvailable() > 0) {
@@ -60,7 +62,8 @@ public class ChamadasApplication {
 //									(linha.equals("porta2Des") && porta2EstadoAnterior != false)) {
 //								porta2 = !porta2;
 //								System.out.println("porta 2 " + (porta2 ? "ligada" : "desligada"));
-//								S_Interruptor.alterarEstado("601 A");
+//								S_Interruptor.alterarEstado("201 A");
+//								//201 a
 //								porta2EstadoAnterior = porta2;
 //							}
 //
@@ -68,7 +71,8 @@ public class ChamadasApplication {
 //									(linha.equals("porta3Des") && porta3EstadoAnterior != false)) {
 //								porta3 = !porta3;
 //								System.out.println("porta 3 " + (porta3 ? "ligada" : "desligada"));
-//								S_Interruptor.alterarEstado("601 B");
+//								S_Interruptor.alterarEstado("201 B");
+//								//201 b
 //								porta3EstadoAnterior = porta3;
 //							}
 //
@@ -76,7 +80,8 @@ public class ChamadasApplication {
 //									(linha.equals("porta4Des") && porta4EstadoAnterior != false)) {
 //								porta4 = !porta4;
 //								System.out.println("porta 4 " + (porta4 ? "ligada" : "desligada"));
-//								S_Interruptor.alterarEstado("601 C");
+//								S_Interruptor.alterarEstado("202 A");
+//								//202 a
 //								porta4EstadoAnterior = porta4;
 //							}
 //
@@ -84,7 +89,8 @@ public class ChamadasApplication {
 //									(linha.equals("porta5Des") && porta5EstadoAnterior != false)) {
 //								porta5 = !porta5;
 //								System.out.println("porta 5 " + (porta5 ? "ligada" : "desligada"));
-//								S_Interruptor.alterarEstado("601 D");
+//								S_Interruptor.alterarEstado("202 B");
+//								//202 b
 //								porta5EstadoAnterior = porta5;
 //							}
 //
@@ -92,8 +98,18 @@ public class ChamadasApplication {
 //									(linha.equals("porta6Des") && porta6EstadoAnterior != false)) {
 //								porta6 = !porta6;
 //								System.out.println("porta 6 " + (porta6 ? "ligada" : "desligada"));
-//								S_Interruptor.alterarEstado("Emergência 601");
+//								S_Interruptor.alterarEstado("Emergência 201");
+//								//emergencia
 //								porta6EstadoAnterior = porta6;
+//							}
+//
+//							if ((linha.equals("porta7Lig") && porta6EstadoAnterior != true) ||
+//									(linha.equals("porta7Des") && porta6EstadoAnterior != false)) {
+//								porta7 = !porta7;
+//								System.out.println("porta 7 " + (porta7 ? "ligada" : "desligada"));
+//								S_Interruptor.alterarEstado("RFID");
+//								//Rfid
+//								porta7EstadoAnterior = porta7;
 //							}
 //						}
 //
