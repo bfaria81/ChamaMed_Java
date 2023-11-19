@@ -3,11 +3,6 @@ function controleDeRotas(url){
         case "/logout":
             gerarSwal(url);
             break;
-
-//        case "/showNewUsuarioForm":
-//            gerarSwalSave(url);
-//            break;
-
         case "/showUsuarioAtivo":
 //            Renderizar Tela
 //            $.get(url, function(data){

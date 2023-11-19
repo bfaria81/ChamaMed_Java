@@ -1,0 +1,52 @@
+    html, body {
+    height: 100%;
+}
+
+body {
+    background-image: url("../imagens/enfermeiros.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin: 0;
+    height: 100vh;
+}
+
+.form-floating input {
+    background-color: #c8e2e3c7;
+    border: 3px solid #2986cc; /* Adapte a cor conforme necessário */
+    border-radius: 5px; /* Remova a borda arredondada se desejar */
+    box-shadow: 0 1px 1px #2986cc;
+    color: black; /* Adapte a cor do texto conforme necessário */
+}
+
+.form-floating label {
+    color: black; /* Adapte a cor do rótulo conforme necessário */
+}
+
+.input-group-text {
+    background-color: #c8e2e3c7;
+    border-color: #2986cc;
+    border-width: 3px;
+}
+
+.btn {
+    border: 3px solid #2986cc;
+    background-color: #c8e2e3c7;
+    box-shadow: 0 2px 2px #2986cc;
+    font-family: 'Arial', sans-serif;
+    font-size:21px;
+}
+
+.larger-font {
+    font-size: xxx-large; /* ou qualquer tamanho desejado */
+}
+
+.mb-4 {
+    margin-top: 6rem !important; /* ou qualquer distância desejada */
+
+}
+
+.larger-font1 {
+    font-size: x-large; /* ou qualquer tamanho desejado */
+
+}

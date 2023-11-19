@@ -1,0 +1,136 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap');
+
+body {
+    background-image: url("../imagens/enfer_transp.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: rgba(255, 255, 255, 0);
+    margin: 0;
+    height: 100vh;
+    text-align: center;
+    font-family: 'Roboto', sans-serif; /* Aplica a fonte personalizada */
+    font-weight: bold;
+
+}
+
+header {
+    z-index: 1000;
+    background: rgb(2, 0, 36);
+    background: linear-gradient(90deg, rgb(49, 155, 152) 0%, rgba(97, 112, 196, 0.92) 15%, rgb(140, 162, 168) 80%);
+    border-radius: 10px; /* Adiciona bordas arredondadas */
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2); /* Adiciona sombra na parte inferior */
+    border: 2px solid rgb(140, 162, 168); /* Adiciona uma borda branca de 2 pixels */
+    color: black;
+    padding: 20px;
+}
+
+header h1 {
+    margin: 0;
+}
+
+.content {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 50px;
+}
+
+<!--
+#container {
+--> <!-- display: flex;
+--> <!-- flex-direction: column;
+--> <!-- align-items: center;
+--> <!-- margin-top: 50 px;
+--> <!--
+}
+
+-->
+
+<!--
+h1 {
+--> <!-- font-weight: bold;
+--> <!--
+}
+
+-->
+
+.interruptor {
+    display: inline-block;
+    width: 200px;
+    height: 100px;
+    text-align: center;
+    line-height: 100px;
+    margin: 10px;
+    border-radius: 10px;
+    font-weight: bold;
+    border: 2px solid grey;
+}
+
+.interruptor[data-estado="true"] {
+    background: linear-gradient(to right, rgba(0, 51, 0, 0.9), rgba(0, 102, 0, 0.7), rgba(0, 51, 0, 0.9));
+    animation: none;
+    color: white;
+}
+
+.interruptor[data-estado="false"] {
+    background: linear-gradient(to right, rgba(150, 150, 150, 1) 0%, rgba(100, 100, 100, 0.8) 25%, rgba(100, 100, 100, 0.8) 75%, rgba(150, 150, 150, 1) 100%);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5); /* Aumenta a intensidade da sombra */
+    animation: none;
+    color: black;
+}
+
+.interruptor[data-tres-letras="true"] {
+    background: linear-gradient(to right, rgba(255, 0, 0, 0.9), rgba(255, 51, 51, 0.7), rgba(255, 0, 0, 0.9));
+    animation: breathe 8s infinite;
+}
+
+@keyframes breathe {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(0.8);
+    }
+}
+
+
+.interruptor[data-tres-letras="true"][data-estado="false"] {
+    background: linear-gradient(to right, rgba(150, 150, 150, 1) 0%, rgba(100, 100, 100, 0.8) 25%, rgba(100, 100, 100, 0.8) 75%, rgba(150, 150, 150, 1) 100%);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5); /* Aumenta a intensidade da sombra */
+    animation: none;
+    color: black;
+}
+
+
+.indentificacao {
+    font-size: 18px;
+}
+
+<!--
+.coluna-principal .interruptor {
+--> <!-- flex: 3;
+--> <!-- width: 200 px;
+--> <!-- height: 100 px;
+--> <!-- text-align: center;
+--> <!-- line-height: 100 px;
+--> <!-- margin: 10 px;
+--> <!-- border-radius: 10 px;
+--> <!-- font-weight: bold;
+--> <!-- border: 2 px solid grey;
+--> <!--
+}
+
+-->
+
+.coluna-lateral {
+    flex: 1; /* Define a largura para 1/4 da página */
+    display: flex;
+    flex-direction: column-reverse; /* Reverte a ordem das divs */
+    align-items: flex-end;
+    z-index: 1000;
+    background: rgb(2, 0, 36);
+    background: linear-gradient(90deg, rgb(31, 148, 145) 0%, rgba(80, 145, 147, 0.92) 15%, rgb(131, 180, 172) 80%);
+    border-radius: 10px; /* Adiciona bordas arredondadas */
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2); /* Adiciona sombra na parte inferior */
+    border: 2px solid rgb(140, 162, 168); /* Adiciona uma borda branca de 2 pixels */
+}
