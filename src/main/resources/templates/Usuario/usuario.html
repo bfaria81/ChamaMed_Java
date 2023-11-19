@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <title>ChamaMed - Lista de Usuarios</title>
@@ -38,73 +39,7 @@
     <script src="js/datatables.js"></script>
     <script src="js/home.js"></script>
 
-
-    <!-- Estilos personalizados -->
-    <style>
-    body {
-      background-color: #f8f9fa;
-    }
-    a {
-      color: #fff;
-    }
-    .container {
-      background-color: #fff;
-      padding: 20px;
-      border-radius: 5px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-    h1 {
-      font-family: 'Arial', sans-serif;
-      font-size: 32px; /* Aumentei o tamanho do título */
-      color: #333;
-      margin-bottom: 20px;
-    }
-    .btn-primary {
-      background-color: #007bff;
-      border-color: #007bff;
-    }
-    .btn-primary:hover {
-      background-color: #0056b3;
-      border-color: #0056b3;
-    }
-    .btn-info {
-      background-color: #17a2b8;
-      border-color: #17a2b8;
-    }
-    .btn-info:hover {
-      background-color: #117a8b;
-      border-color: #117a8b;
-    }
-    .table {
-      border-collapse: collapse;
-      width: 100%;
-    }
-    .table th, .table td {
-      border: 1px solid #dee2e6;
-      padding: 8px;
-      text-align: center;
-    }
-    .table th {
-      background-color: #343a40;
-      color: #fff;
-    }
-    .table tbody tr:nth-child(odd) {
-      background-color: #f2f2f2;
-    }
-    .table-striped tbody tr:nth-child(odd) {
-      background-color: #e9ecef;
-    }
-
-<!--   .custom-checkbox:checked + .form-check-label::before {-->
-<!--    background-color: red;-->
-<!--    }-->
-
-<!--    .inativo {-->
-<!--    color: red !important;-->
-
-<!--    }-->
-
-    </style>
+    <link rel="stylesheet" type="text/css" href="/css/usuario.css"/>
 
 </head>
 <body>
@@ -112,41 +47,9 @@
 <div class="container mt-4">
     <h1 class="text-center">Lista de Usuários</h1>
 
-    <div class="modal fade" id="cadastroUsuarioModal" tabindex="-1" aria-labelledby="cadastroUsuarioModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="cadastroUsuarioModalLabel">Cadastrar Usuário</h5>
-                </div>
-                <div class="modal-body">
-                    <form action="#" th:action="@{/saveUsuario}"
-                          method="POST">
-                        <input id="nome" name="nome" type="text"
-                               placeholder="Nome Usuario" class="form-control mb-4 col-4 gNome" required>
-                        <input id="matricula" name="matricula" type="number"
-                               placeholder="Matrícula" class="form-control mb-4 col-4 gMatricula" required>
-                        <select id="cargo" name="cargo"
-                                placeholder="Cargo" class="form-select mb-4 col-4 gCargo">
-                            <option value="" selected>Selecione...</option>
-                            <option value="1">Gestor</option>
-                            <option value="2">Médico</option>
-                            <option value="3">Residente</option>
-                            <option value="4">Enfermeiro(a)-Chefe</option>
-                            <option value="5">Enfermeiro(a)</option>
-                        </select>
 
-                        <button id="enviar" type="submit" class="btn btn-info col-2">Salvar</button>
-                        <a th:href="@{/showUsuarioAtivo}" class="btn btn-secondary col-2"
-                           data-bs-dismiss="modal">Voltar</a>
-
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
     <div class="d-flex justify-content-between mb-4">
-        <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#cadastroUsuarioModal">Adicionar Usuário</a>
+        <a th:href="@{/showNewUsuarioForm}" class="btn btn-primary">Adicionar Usuário</a>
         <a th:href="@{/home}" class="btn btn-info">Menu</a>
     </div>
 
@@ -173,8 +76,11 @@
                 th:style="${usuario.ativo == false} ? 'color: red' : ''"></td>
 
             <td class="d-flex align-items-center justify-content-center">
+
                 <a th:href="@{/showFormForUpdateUsuario/{id}(id=${usuario.id})}"
                    class="btn btn-primary btn-sm mx-2">Editar</a>
+                <!--                <a th:onclick="'$(\'#nomeEdit\').val($(\'#usuario'+${usuario.id}+'\').children()[0].textContent);$(\'#matriculaEdit\').val($(\'#usuario'+${usuario.id}+'\').children()[1].textContent);$(\'#cargoEdit\').val($(\'#usuario'+${usuario.id}+'\').children()[2].val(value));'"-->
+                <!--                   class="btn btn-primary btn-sm mx-2" data-bs-toggle="modal" data-bs-target="#editarUsuarioModal">Editar</a>-->
 
                 <a th:onclick="'inativarUsuario('+${usuario.id}+')'" class="btn btn-warning btn-sm mx-2">Inativar</a>
                 <a th:href="@{'/ativarUsuario/' + ${usuario.id}}" class="btn btn-success btn-sm mx-2">Ativar</a>
@@ -216,7 +122,7 @@ const checkbox = document.getElementById("botaoMostrarInativos");
 });
 
 
- $(document).ready(function () {
+ $(document).ready(function() {
         $('#relatorioTable').DataTable();
     });
 </script>

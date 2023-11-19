@@ -99,14 +99,29 @@ function validaEnvio(){
     }
 }
 
-function gerarSwalSave(){
-Swal.fire({
-  position: "top-end",
-  icon: "success",
-  title: "Your work has been saved",
-  showConfirmButton: false,
-  timer: 1500
-});
-}
 
-
+//$("#enviar").click(cadastrarUsuario);
+//
+//function cadastrarUsuario(){
+//    let nome = $("#nome").val();
+//    let cargo = $("#cargo option:selected").val();
+//    let matricula = $("#matricula").val();
+//
+//    $.ajax({
+//        type: "POST",
+//        url: "/New_Usuario/new_usuario",
+//        data:{
+//            nome : nome,
+//            cargo : cargo,
+//            matricula : matricula,
+//
+//        },
+//        success: function(data){
+//            alert(data);
+//        },
+//        error: function(){
+//            alert("Falha na comunicação com o servidor!");
+//        }
+//    });
+//}
+//

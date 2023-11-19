@@ -1,8 +1,3 @@
-# ChamaMed_Java
-Aplicativo de chamadas para projeto integrador 
-
-Criação do Banco
-
 CREATE TABLE cargo( id SERIAL PRIMARY KEY, nome varchar(255) );
 
 Insert into cargo(nome) values('Gestor(a)'), ('Médico(a)'), ('Residente'), ('Enfermeiro(a)-Chefe'), ('Enfermeiro(a)');
@@ -13,11 +8,16 @@ CREATE TABLE interruptor ( id SERIAL PRIMARY KEY, interruptor varchar(255) not n
 
 CREATE TABLE registro ( id SERIAL PRIMARY KEY, acao VARCHAR(255) , nome varchar(255) , data_hora TIMESTAMP );
 
+insert into usuario (nome, matricula, cargo, senha) values ('Bruno', '123', 1, 'senha');
 
-insert into usuario (nome, matricula, cargo, senha) values ('teste', '123', 1, '123');
+insert into usuario (nome, matricula, cargo, senha) values ('Robson', '234', 2, 'senha');
 
-insert into usuario (nome, matricula, cargo, senha) values ('teste', '123', 1, '123')
+insert into usuario (nome, matricula, cargo, senha) values ('Marcio', '345', 3, 'senha');
 
+insert into usuario (nome, matricula, cargo, senha) values ('José', '456', 4, 'senha');
 
+insert into usuario (nome, matricula, cargo, senha) values ('Maria', '567', 5, 'senha')
 
+alter table interruptor add column ativo bool default true
 
+select * from usuario

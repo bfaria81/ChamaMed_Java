@@ -7,11 +7,11 @@ import java.util.List;
 
 public interface S_Interruptor_Interface {
 
-   List<M_Interruptor> getAllInterruptor();
+    List<M_Interruptor> getAllInterruptor();
 
- List<M_Interruptor> getInterruptoresInativos();
+    List<M_Interruptor> getInterruptoresInativos();
 
- void saveInterruptor(M_Interruptor m_interruptor);
+    void saveInterruptor(M_Interruptor m_interruptor);
     M_Interruptor getInterruptorById(Long id);
     void deleteInterruptorById(Long id);
 

@@ -57,6 +57,40 @@ public class S_Usuario_Implements implements S_Usuario_Interface{
     @Override
     public void deleteUsuarioById(Long id) {this.r_usuario.deleteById((long)id);}
 
+    @Override
+    public Page<M_Usuario> findPaginatedUsuario(int pageNo, int pageSize, String sortField, String sortDirection){
+        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending():
+                Sort.by(sortField).descending();
+
+        Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
+        return this.r_usuario.findAll(pageable);
+    }
+
+    @Override
+    public Page<M_Usuario> findPaginatedUsuarioAtivo(int pageNo, int pageSize, String sortField, String sortDirection){
+        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending():
+                Sort.by(sortField).descending();
+
+        Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
+        return this.r_usuario.findByAtivo(true, pageable);
+    }
+
+//    @Override
+//    public Page<M_Usuario> findPaginatedUsuario(int pageNo, int pageSize, String sortField, String sortDirection){
+//
+//        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() :
+//                Sort.by(sortField).descending();
+//
+//        Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
+//
+//        if(mostrarInativos){
+//            return this.r_usuario.findAll(pageable);
+//        } else {
+//            return this.r_usuario.findByAtivo(true, pageable);
+//        }
+//    }
+
+
 
     public static M_Usuario validaLogin(String matricula, String senha){
         matricula = S_Generico.limparNumero(matricula);
@@ -110,6 +144,12 @@ public class S_Usuario_Implements implements S_Usuario_Interface{
         M_Resposta m_resposta = new M_Resposta(podeSalvar, mensagem);
         return m_resposta;
     }
+
+
+
+
+
+
 
 
 }

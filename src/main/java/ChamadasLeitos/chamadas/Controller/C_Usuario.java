@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
-    @Controller
-    public class C_Usuario {
+@Controller
+public class C_Usuario {
     @Autowired
     private S_Usuario_Interface s_usuario_interface;
 
@@ -23,10 +23,11 @@ import java.util.List;
 
     @GetMapping("/showUsuario")
     public String viewHomePageUsuario(Model model) {
-    List<M_Usuario> usuariosList = s_usuario_interface.getAllUsuario();
-    model.addAttribute("usuariosList", usuariosList);
-    return "Usuario/usuario";
-}
+        List<M_Usuario> usuariosList = s_usuario_interface.getAllUsuario();
+        model.addAttribute("usuariosList", usuariosList);
+        model.addAttribute("usuario", new M_Usuario());
+        return "Usuario/usuario";
+    }
 
     @GetMapping("/showUsuarioAtivo")
     public String viewHomePageUsuarioInativo(Model model){
@@ -76,6 +77,8 @@ import java.util.List;
         }
     }
 
+
+
     @GetMapping("/showFormForUpdateUsuario/{id}")
     public String showFormForUpdateUsuario(@PathVariable(value = "id")long id, Model model){
         M_Usuario m_usuario = s_usuario_interface.getUsuarioById(id);
@@ -95,7 +98,6 @@ import java.util.List;
                                 @RequestParam Long matricula,
                                 @RequestParam Long cargo){
         M_Usuario usuarioExistente = s_usuario_interface.getUsuarioById(id);
-
         if (usuarioExistente != null){
             usuarioExistente.setNome(nome);
             usuarioExistente.setMatricula(matricula);
@@ -109,6 +111,32 @@ import java.util.List;
             return "ID não encontrado";
         }
     }
+
+//        @PostMapping("/updateUsuario/{id}")
+//        public String updateUsuario(@PathVariable(value = "id") long id, @ModelAttribute M_Usuario m_usuario) {
+//            try {
+//                M_Usuario usuarioExistente = s_usuario_interface.getUsuarioById(id);
+//
+//                if (usuarioExistente != null) {
+//                    // Atualiza os campos do usuário existente
+//                    usuarioExistente.setNome(m_usuario.getNome());
+//                    usuarioExistente.setMatricula(m_usuario.getMatricula());
+//                    usuarioExistente.setCargo(m_usuario.getCargo());
+//
+//                    // Salva o usuário atualizado
+//                    s_usuario_interface.saveUsuario(usuarioExistente);
+//
+//                    return "redirect:/showUsuarioAtivo";
+//                } else {
+//                    return "ID não encontrado";
+//                }
+//            } catch (Exception e) {
+//                // Trata exceções aqui (por exemplo, exceções de banco de dados)
+//                e.printStackTrace();  // Log ou trate a exceção de acordo com suas necessidades
+//                return "Erro durante a atualização do usuário";
+//            }
+//        }
+
 
     @GetMapping("/deleteUsuario/{id}")
     public String deleteUsuario(@PathVariable (value = "id")long id){

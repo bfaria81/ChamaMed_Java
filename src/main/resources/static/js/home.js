@@ -1,9 +1,9 @@
-$('a').click(function(event){
+$('a').click(function (event) {
     event.preventDefault();
     controleDeRotas($(this).attr("href"));
 });
 
-function gerarSwal(urlSucesso){
+function gerarSwal(urlSucesso) {
     const swalWithBootstrapButtons = Swal.mixin({
         customClass: {
             confirmButton: 'btn btn-success me-2',
@@ -22,23 +22,7 @@ function gerarSwal(urlSucesso){
         reverseButtons: false
     }).then((result) => {
         if (result.isConfirmed) {
-        window.location.href = urlSucesso;
+            window.location.href = urlSucesso;
         }
     });
 }
-
-
- $(document).ready(function () {
-        // Use jQuery para carregar o conteúdo da parcial view
-        $(".mainContainer").load("/relatorio", function () {
-            // Esta função é chamada após o carregamento da parcial view
-            // Você pode aplicar seus estilos aqui
-            $(".container").css({
-                "background-color": "#fff",
-                "padding": "20px",
-                "border-radius": "5px",
-                "box-shadow": "0 0 10px rgba(0, 0, 0, 0.1)"
-            });
-        });
-    });
-
