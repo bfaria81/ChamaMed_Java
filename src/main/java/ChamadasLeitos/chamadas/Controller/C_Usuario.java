@@ -5,6 +5,7 @@ import ChamadasLeitos.chamadas.Model.M_Resposta;
 import ChamadasLeitos.chamadas.Model.M_Usuario;
 import ChamadasLeitos.chamadas.Service.S_Usuario_Implements;
 import ChamadasLeitos.chamadas.Service.S_Usuario_Interface;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -22,18 +23,35 @@ public class C_Usuario {
 
 
     @GetMapping("/showUsuario")
-    public String viewHomePageUsuario(Model model) {
-        List<M_Usuario> usuariosList = s_usuario_interface.getAllUsuario();
-        model.addAttribute("usuariosList", usuariosList);
-        model.addAttribute("usuario", new M_Usuario());
-        return "Usuario/usuario";
+    public String viewHomePageUsuario(Model model, HttpSession session) {
+
+        if(session.getAttribute("usuario") != null){
+            model.addAttribute("usuario", session.getAttribute("usuario"));
+
+            List<M_Usuario> usuariosList = s_usuario_interface.getAllUsuario();
+            model.addAttribute("usuariosList", usuariosList);
+            model.addAttribute("usuario", new M_Usuario());
+
+            return "Usuario/usuario";
+        } else {
+            return "Login/login";
+        }
+
     }
 
     @GetMapping("/showUsuarioAtivo")
-    public String viewHomePageUsuarioInativo(Model model){
-        List<M_Usuario> usuariosList = s_usuario_interface.getUsuariosAtivos();
-        model.addAttribute("usuariosList", usuariosList);
-        return"Usuario/usuario_ativo";
+    public String viewHomePageUsuarioInativo(Model model, HttpSession session){
+
+        if(session.getAttribute("usuario") != null){
+            model.addAttribute("usuario", session.getAttribute("usuario"));
+
+            List<M_Usuario> usuariosList = s_usuario_interface.getUsuariosAtivos();
+            model.addAttribute("usuariosList", usuariosList);
+
+            return"Usuario/usuario_ativo";
+        } else {
+            return "Login/login";
+        }
     }
 
 
@@ -52,10 +70,18 @@ public class C_Usuario {
 
 
     @GetMapping("/showNewUsuarioForm")
-    public String showNewUsuarioForm(Model model){
-        M_Usuario m_usuario = new M_Usuario();
-        model.addAttribute("usuario", m_usuario);
-        return "New_Usuario/new_usuario";
+    public String showNewUsuarioForm(Model model, HttpSession session){
+
+        if(session.getAttribute("usuario") != null) {
+            model.addAttribute("usuario", session.getAttribute("usuario"));
+
+            M_Usuario m_usuario = new M_Usuario();
+            model.addAttribute("usuario", m_usuario);
+
+            return "New_Usuario/new_usuario";
+        }else{
+            return "Login/login";
+        }
     }
 
 
@@ -80,24 +106,35 @@ public class C_Usuario {
 
 
     @GetMapping("/showFormForUpdateUsuario/{id}")
-    public String showFormForUpdateUsuario(@PathVariable(value = "id")long id, Model model){
-        M_Usuario m_usuario = s_usuario_interface.getUsuarioById(id);
+    public String showFormForUpdateUsuario(@PathVariable(value = "id")long id, Model model, HttpSession session){
 
-        if(m_usuario != null){
-            model.addAttribute("usuario", m_usuario);
-            return "Update_Usuario/update_usuario";
+        if(session.getAttribute("usuario") != null) {
+            model.addAttribute("usuario", session.getAttribute("usuario"));
 
-        } else {
-            return "redirect:/showUsuarioAtivo";
+            M_Usuario m_usuario = s_usuario_interface.getUsuarioById(id);
+
+            if (m_usuario != null) {
+                model.addAttribute("usuario", m_usuario);
+                return "Update_Usuario/update_usuario";
+
+            } else {
+                return "redirect:/showUsuarioAtivo";
+            }
+
+
+        }else{
+            return "Login/login";
         }
+
     }
 
     @PostMapping("/updateUsuario/{id}")
     public String updateUsuario(@PathVariable(value = "id") long id,
                                 @RequestParam String nome,
                                 @RequestParam Long matricula,
-                                @RequestParam Long cargo){
+                                @RequestParam Long cargo, HttpSession session){
         M_Usuario usuarioExistente = s_usuario_interface.getUsuarioById(id);
+
         if (usuarioExistente != null){
             usuarioExistente.setNome(nome);
             usuarioExistente.setMatricula(matricula);
@@ -112,31 +149,6 @@ public class C_Usuario {
         }
     }
 
-//        @PostMapping("/updateUsuario/{id}")
-//        public String updateUsuario(@PathVariable(value = "id") long id, @ModelAttribute M_Usuario m_usuario) {
-//            try {
-//                M_Usuario usuarioExistente = s_usuario_interface.getUsuarioById(id);
-//
-//                if (usuarioExistente != null) {
-//                    // Atualiza os campos do usuário existente
-//                    usuarioExistente.setNome(m_usuario.getNome());
-//                    usuarioExistente.setMatricula(m_usuario.getMatricula());
-//                    usuarioExistente.setCargo(m_usuario.getCargo());
-//
-//                    // Salva o usuário atualizado
-//                    s_usuario_interface.saveUsuario(usuarioExistente);
-//
-//                    return "redirect:/showUsuarioAtivo";
-//                } else {
-//                    return "ID não encontrado";
-//                }
-//            } catch (Exception e) {
-//                // Trata exceções aqui (por exemplo, exceções de banco de dados)
-//                e.printStackTrace();  // Log ou trate a exceção de acordo com suas necessidades
-//                return "Erro durante a atualização do usuário";
-//            }
-//        }
-
 
     @GetMapping("/deleteUsuario/{id}")
     public String deleteUsuario(@PathVariable (value = "id")long id){
@@ -146,7 +158,7 @@ public class C_Usuario {
 
 
     @GetMapping("/inativarUsuario/{id}")
-    public String inativarUsuario(@PathVariable(value = "id") long id) {
+    public String inativarUsuario(@PathVariable(value = "id") long id, HttpSession session) {
         M_Usuario usuario = s_usuario_interface.getUsuarioById(id);
 
         if (usuario != null) {
@@ -159,7 +171,7 @@ public class C_Usuario {
     }
 
     @GetMapping("/ativarUsuario/{id}")
-    public String ativarUsuario(@PathVariable(value = "id") long id) {
+    public String ativarUsuario(@PathVariable(value = "id") long id, HttpSession session) {
         M_Usuario usuario = s_usuario_interface.getUsuarioById(id);
 
         if (usuario != null) {
@@ -169,6 +181,15 @@ public class C_Usuario {
         }
 
         return "redirect:/showUsuarioAtivo";
+    }
+
+    @PostMapping("/logado")
+    public String login(HttpSession session) {
+
+        // Se a autenticação for bem-sucedida, adicione informações à sessão
+        session.setAttribute("usuarioLogado", true);
+
+        return "redirect:/home";
     }
 
 

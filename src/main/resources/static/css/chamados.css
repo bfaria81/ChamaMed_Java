@@ -73,11 +73,12 @@ h1 {
 }
 
 .interruptor[data-estado="false"] {
-    background: linear-gradient(to right, rgba(150, 150, 150, 1) 0%, rgba(100, 100, 100, 0.8) 25%, rgba(100, 100, 100, 0.8) 75%, rgba(150, 150, 150, 1) 100%);
+    background: linear-gradient(to right, rgba(220, 220, 220, 1) 0%, rgba(200, 200, 200, 0.8) 25%, rgba(200, 200, 200, 0.8) 75%, rgba(220, 220, 220, 1) 100%);
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.5); /* Aumenta a intensidade da sombra */
     animation: none;
     color: black;
 }
+
 
 .interruptor[data-tres-letras="true"] {
     background: linear-gradient(to right, rgba(255, 0, 0, 0.9), rgba(255, 51, 51, 0.7), rgba(255, 0, 0, 0.9));
@@ -94,8 +95,8 @@ h1 {
 }
 
 
-.interruptor[data-tres-letras="true"][data-estado="false"] {
-    background: linear-gradient(to right, rgba(150, 150, 150, 1) 0%, rgba(100, 100, 100, 0.8) 25%, rgba(100, 100, 100, 0.8) 75%, rgba(150, 150, 150, 1) 100%);
+.interruptor[data-estado="false"] {
+    background: linear-gradient(to right, rgba(220, 220, 220, 1) 0%, rgba(200, 200, 200, 0.8) 25%, rgba(200, 200, 200, 0.8) 75%, rgba(220, 220, 220, 1) 100%);
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.5); /* Aumenta a intensidade da sombra */
     animation: none;
     color: black;

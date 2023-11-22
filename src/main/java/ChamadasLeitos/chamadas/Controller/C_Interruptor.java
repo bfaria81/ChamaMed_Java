@@ -7,6 +7,7 @@ import ChamadasLeitos.chamadas.Service.S_Interruptor;
 import ChamadasLeitos.chamadas.Service.S_Interruptor_Implements;
 import ChamadasLeitos.chamadas.Service.S_Interruptor_Interface;
 import ChamadasLeitos.chamadas.Service.S_Registro;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -42,10 +43,18 @@ public class C_Interruptor {
     }
 
     @GetMapping("/chamados")
-    public String paginaSecundaria(Model model) {
-        List<M_Interruptor> interruptores = S_Interruptor.listarInterruptores();
-        model.addAttribute("interruptores", interruptores);
-        return "/chamados";
+    public String paginaSecundaria(Model model, HttpSession session) {
+
+        if(session.getAttribute("usuario") != null) {
+            model.addAttribute("usuario", session.getAttribute("usuario"));
+
+            List<M_Interruptor> interruptores = S_Interruptor.listarInterruptores();
+            model.addAttribute("interruptores", interruptores);
+
+            return "/chamados";
+        } else {
+            return "Login/login";
+        }
     }
 
     @PostMapping("/simulacao")
@@ -61,26 +70,50 @@ public class C_Interruptor {
     }
 
     @GetMapping("/relatorio")
-    public String exibirRelatorio(Model model) {
-        // Aqui você deve buscar todos os registros do serviço
-        List<M_Registro> registros = s_registro.listarTodosRegistros();
-        Collections.reverse(registros);
-        model.addAttribute("registros", registros);
-        return "/relatorio"; // Nome do arquivo HTML da página de relatório
+    public String exibirRelatorio(Model model, HttpSession session) {
+
+        if(session.getAttribute("usuario") != null) {
+            model.addAttribute("usuario", session.getAttribute("usuario"));
+
+            // Aqui você deve buscar todos os registros do serviço
+            List<M_Registro> registros = s_registro.listarTodosRegistros();
+            Collections.reverse(registros);
+            model.addAttribute("registros", registros);
+
+            return "/relatorio"; // Nome do arquivo HTML da página de relatório
+        } else {
+            return "Login/login";
+        }
     }
 
     @GetMapping("/showInterruptor")
-    public String viewHomePageInterruptor(Model model){
-        List<M_Interruptor> interruptoresList = s_interruptor_interface.getAllInterruptor();
-        model.addAttribute("interruptoresList", interruptoresList);
-        return "Interruptor/interruptor";
+    public String viewHomePageInterruptor(Model model, HttpSession session){
+
+        if(session.getAttribute("usuario") != null) {
+            model.addAttribute("usuario", session.getAttribute("usuario"));
+
+            List<M_Interruptor> interruptoresList = s_interruptor_interface.getAllInterruptor();
+            model.addAttribute("interruptoresList", interruptoresList);
+
+            return "Interruptor/interruptor";
+        } else {
+            return "Login/login";
+        }
     }
 
     @GetMapping("/showInterruptorAtivo")
-    public String viewHomePageInterruptorAtivo(Model model){
-        List<M_Interruptor> interruptoresList = s_interruptor_interface.getInterruptoresAtivos();
-        model.addAttribute("interruptoresList", interruptoresList);
-        return "Interruptor/interruptor_ativo";
+    public String viewHomePageInterruptorAtivo(Model model, HttpSession session){
+
+        if(session.getAttribute("usuario") != null) {
+            model.addAttribute("usuario", session.getAttribute("usuario"));
+
+            List<M_Interruptor> interruptoresList = s_interruptor_interface.getInterruptoresAtivos();
+            model.addAttribute("interruptoresList", interruptoresList);
+
+            return "Interruptor/interruptor_ativo";
+        } else {
+            return "Login/login";
+        }
     }
 
     @GetMapping("/mostrarInterruptoresInativos")
@@ -97,15 +130,23 @@ public class C_Interruptor {
 
 
     @GetMapping("/showNewInterruptorForm")
-    public String showNewInterruptorForm(Model model){
-        M_Interruptor m_interruptor = new M_Interruptor();
-        model.addAttribute("interruptor", m_interruptor);
-        return "New_Interruptor/new_interruptor";
+    public String showNewInterruptorForm(Model model, HttpSession session){
+
+        if(session.getAttribute("usuario") != null) {
+            model.addAttribute("usuario", session.getAttribute("usuario"));
+
+            M_Interruptor m_interruptor = new M_Interruptor();
+            model.addAttribute("interruptor", m_interruptor);
+
+            return "New_Interruptor/new_interruptor";
+        } else {
+            return "Login/login";
+        }
     }
 
     @PostMapping("/saveInterruptor")
     public String saveInterruptor(@RequestParam String interruptor, @RequestParam boolean estado,
-                                  @RequestParam String setor){
+                                  @RequestParam String setor, HttpSession session){
         M_Interruptor m_interruptor = new M_Interruptor();
         m_interruptor.setInterruptor(interruptor);
         m_interruptor.setEstado(estado);
@@ -116,22 +157,29 @@ public class C_Interruptor {
     }
 
     @GetMapping("/showFormForUpdateInterruptor/{id}")
-    public String showFormForUpdateInterruptor(@PathVariable(value = "id")long id, Model model){
-        M_Interruptor m_interruptor = s_interruptor_interface.getInterruptorById(id);
+    public String showFormForUpdateInterruptor(@PathVariable(value = "id")long id, Model model, HttpSession session){
 
-        if(m_interruptor != null){
-            model.addAttribute("interruptor", m_interruptor);
-            return "Update_Interruptor/update_interruptor";
+        if(session.getAttribute("usuario") != null) {
+            model.addAttribute("usuario", session.getAttribute("usuario"));
 
+            M_Interruptor m_interruptor = s_interruptor_interface.getInterruptorById(id);
+
+            if (m_interruptor != null) {
+                model.addAttribute("interruptor", m_interruptor);
+                return "Update_Interruptor/update_interruptor";
+
+            } else {
+                return "redirect:/showInterruptor";
+            }
         } else {
-            return "redirect:/showInterruptor";
+            return "Login/login";
         }
     }
 
     @PostMapping("/updateInterruptor/{id}")
     public String updateInterruptor(@PathVariable(value = "id") long id,
                                     @RequestParam String interruptor, @RequestParam boolean estado,
-                                    @RequestParam String setor){
+                                    @RequestParam String setor, HttpSession session){
         M_Interruptor interruptorExistente = s_interruptor_interface.getInterruptorById(id);
 
         if (interruptorExistente != null){
@@ -156,7 +204,7 @@ public class C_Interruptor {
     }
 
     @GetMapping("/ativarInterruptor/{id}")
-    public String ativarInterruptor(@PathVariable(value = "id") long id){
+    public String ativarInterruptor(@PathVariable(value = "id") long id, HttpSession session){
         M_Interruptor interruptor = s_interruptor_interface.getInterruptorById(id);
 
         if (interruptor != null){
@@ -167,7 +215,7 @@ public class C_Interruptor {
     }
 
     @GetMapping("/inativarInterruptor/{id}")
-    public String inativarInterruptor(@PathVariable(value = "id") long id){
+    public String inativarInterruptor(@PathVariable(value = "id") long id, HttpSession session){
         M_Interruptor interruptor = s_interruptor_interface.getInterruptorById(id);
 
         if (interruptor != null){
@@ -199,6 +247,5 @@ public class C_Interruptor {
         model.addAttribute("listInterruptor", listInterruptor);
         return "Interruptor/interruptor";
     }
-
 
 }

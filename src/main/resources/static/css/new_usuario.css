@@ -1,5 +1,6 @@
 html, body {
     height: 100%;
+    margin: 0;
 }
 
 body {
@@ -9,26 +10,24 @@ body {
     background-position: center;
     margin: 0;
     height: 100vh;
-    overflow: hidden;
-    position: relative;
 
+    position: relative;
 }
 
 body::before {
     content: "";
-    background: rgba(255, 255, 255, 0.7); /* Adicionando transparência à cor de fundo */
+    background: rgba(255, 255, 255, 0.7);
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    z-index: -1; /* Colocar abaixo do conteúdo principal */
+    z-index: -1;
 }
 
-/* Adicione esta regra no seu arquivo CSS */
-.form-control {
-    width: 100%;
-    margin-bottom: 10px;
+.container {
+    margin-top: 10%;
+    text-align: center;
 }
 
 .container h1 {
@@ -55,25 +54,6 @@ body::before {
     transform: scaleX(1);
 }
 
-.container {
-    margin-top: 10%;
-    text-align: center;
-}
-
-/* Adicione espaçamento entre os elementos dentro do container */
-.container h1 {
-    margin-bottom: 5%;
-    position: relative;
-    text-decoration: none;
-}
-
-.container h2,
-.container form,
-.container button,
-.container a {
-    margin-bottom: 50px; /* Ajuste o valor conforme necessário */
-}
-
 form {
     background-color: rgba(255, 255, 255, 0.8);
     padding: 20px;
@@ -81,6 +61,19 @@ form {
     width: 30%;
     margin: 0 auto;
 }
+
+.container h2,
+.container form,
+.container button,
+.container a {
+    margin-bottom: 20px;
+}
+
+.form-control {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
 .btn {
     width: 100%;
     margin-top: 10px;
