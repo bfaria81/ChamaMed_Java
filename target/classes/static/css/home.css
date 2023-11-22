@@ -183,3 +183,11 @@ i {
     margin-right: 5px
 
 }
+
+.btn-outline-dark {
+    border-width: 2px; /* Ajuste este valor conforme necessário para obter a espessura desejada */
+}
+
+#sair.btn-outline-dark:hover {
+    border-width: 2px; /* Ajuste este valor conforme necessário para obter a espessura desejada durante o hover */
+}

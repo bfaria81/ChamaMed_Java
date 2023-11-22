@@ -40,17 +40,26 @@
             <option value="4">Enfermeiro(a)-Chefe</option>
             <option value="5">Enfermeiro(a)</option>
         </select>
-<!--        <input type="text" th:field = "*{ativo}"-->
-<!--               placeholder="Estado" class="form-control mb-4 col-4">-->
 
-        <button id="enviar" type="submit" class="btn btn-info col-2 mb-3">Salvar Cadastro</button>
-        <a th:href = "@{/showUsuarioAtivo}" class="btn btn-secondary col-2 mb-3">Retornar</a>
+        <button id="enviar" type="submit" class="btn btn-info mb-2" onclick="exibirMensagemSucesso()">Salvar</button>
+        <a th:href = "@{/showUsuarioAtivo}" class="btn btn-secondary col-2 mb-2">Retornar</a>
+
+
 
     </form>
-
+    <div id="mensagemSucesso" class="alert alert-success" style="display: none;">
+        <strong>Sucesso!</strong> Seu cadastro foi salvo com sucesso.
+    </div>
 <!--    <div th:if="${mensagem}" th:utext="${mensagem}" style="color: red;"></div>-->
 
 </div>
+<script>
+    function exibirMensagemSucesso() {
+        $("#mensagemSucesso").fadeIn().delay(2000).fadeOut();
+        return false;
+    }
+
+</script>
 
 </body>
 </html>
